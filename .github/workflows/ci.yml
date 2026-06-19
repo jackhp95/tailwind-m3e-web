@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        m3e-version: ["2.5.0", "2.5.10", "2.5.x"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile=false
+      - name: Pin @m3e/web for matrix entry
+        run: pnpm add -D "@m3e/web@${{ matrix.m3e-version }}"
+      - name: Regenerate utilities for this @m3e/web version
+        run: pnpm run generate:utilities
+      - name: Test
+        run: pnpm test
