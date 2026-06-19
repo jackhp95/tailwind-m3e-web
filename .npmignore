@@ -1,7 +1,6 @@
 .changeset/
 .github/
 test/
-bin/
 node_modules/
 pnpm-lock.yaml
 *.log

@@ -16,11 +16,15 @@
     "design-tokens",
     "design-system"
   ],
+  "bin": {
+    "tailwindcss-m3e-check-privates": "./bin/check-privates.mjs"
+  },
   "files": [
     "src/**/*.css",
     "generated/**/*.css",
     "generated/**/*.md",
     "utilities-private.template.css",
+    "bin/check-privates.mjs",
     "README.md",
     "LICENSE"
   ],

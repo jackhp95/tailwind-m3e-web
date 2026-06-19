@@ -17,6 +17,8 @@ pnpm add tailwindcss-m3e
 pnpm add @m3e/web
 ```
 
+> `@m3e/web` is an *optional* peer dependency. You only need it installed if you use `tailwindcss-m3e/utilities` (the component-utility surface). The main `tailwindcss-m3e` entry point (M3 design tokens) works without it.
+
 Requires Tailwind v4. Requires Chrome 119+ / Safari 16.4+ / Firefox 128+ (gated on `oklch(from …)`).
 
 ## Use
