@@ -1,10 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
-import { calibrate } from "../bin/calibrate-tones.mjs";
-
-const ROOT = dirname(fileURLToPath(import.meta.url));
+import { calibrate, emitCss } from "../bin/calibrate-tones.mjs";
 
 describe("calibrate-tones", () => {
   it("produces 12 tones × 2 chroma profiles", () => {
@@ -14,11 +9,13 @@ describe("calibrate-tones", () => {
     expect(Object.keys(result.neutral)).toHaveLength(12);
   });
 
-  it("L values are monotonic ascending in tone for the rich profile", () => {
-    const { rich } = calibrate();
+  it("L values are monotonic ascending in tone for both profiles", () => {
+    const result = calibrate();
     const tones = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100];
-    for (let i = 1; i < tones.length; i++) {
-      expect(rich[tones[i]]).toBeGreaterThan(rich[tones[i - 1]]);
+    for (const profile of ["rich", "neutral"]) {
+      for (let i = 1; i < tones.length; i++) {
+        expect(result[profile][tones[i]], `${profile} ${tones[i]} > ${tones[i - 1]}`).toBeGreaterThan(result[profile][tones[i - 1]]);
+      }
     }
   });
 
@@ -34,11 +31,8 @@ describe("calibrate-tones", () => {
     expect(rich[90]).toBeLessThanOrEqual(95);
   });
 
-  it("emitCss output matches snapshot", async () => {
-    const css = await readFile(
-      join(ROOT, "..", "src", "ref", "_tone-table.css"),
-      "utf8",
-    );
+  it("emitCss output matches snapshot", () => {
+    const css = emitCss(calibrate());
     expect(css).toMatchSnapshot();
   });
 });
