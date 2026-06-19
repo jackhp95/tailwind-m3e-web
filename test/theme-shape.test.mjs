@@ -23,6 +23,8 @@ const SPEC_ROLES = [
 const SPEC_PALETTES = ["primary", "secondary", "tertiary", "error", "neutral", "neutral-variant"];
 const SPEC_TONES = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100];
 
+const EXTENDED_ROLES = ["success", "info", "warning"];
+
 describe("theme.css references every sys var", () => {
   it("every --md-sys-* declared in sys/*.css appears as a var() reference in theme.css", async () => {
     const themeCss = await readFile(join(SRC, "theme.css"), "utf8");
@@ -78,5 +80,18 @@ describe("theme.css strict M3 surface", () => {
     expect(css).not.toMatch(/--color-success\b/);
     expect(css).not.toMatch(/--color-info\b/);
     expect(css).not.toMatch(/--color-warning\b/);
+  });
+});
+
+describe("roles-extended.css opt-in surface", () => {
+  it("declares success/info/warning roles + tonal namespaces", async () => {
+    const css = await readFile(join(SRC, "roles-extended.css"), "utf8");
+    for (const role of EXTENDED_ROLES) {
+      expect(css).toMatch(new RegExp(`--color-${role}\\s*:`));
+      expect(css).toMatch(new RegExp(`--color-on-${role}\\s*:`));
+      expect(css).toMatch(new RegExp(`--color-${role}-container\\s*:`));
+      expect(css).toMatch(new RegExp(`--color-${role}-40\\s*:`));
+      expect(css).toMatch(new RegExp(`--color-${role}-95\\s*:`));
+    }
   });
 });
