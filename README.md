@@ -1,8 +1,12 @@
-# tailwindcss-m3e
+# tailwind-m3e-web
 
-[![CI](https://github.com/<owner>/tailwindcss-m3e/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/tailwindcss-m3e/actions/workflows/ci.yml)
+[![CI](https://github.com/<owner>/tailwind-m3e-web/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/tailwind-m3e-web/actions/workflows/ci.yml)
 
-Tailwind v4 utility surface for **[@m3e/web](https://github.com/matraic/m3e)** — matraic's framework-free Material 3 Expressive web components. Wraps `@m3e/web`'s design tokens AND every public component CSS variable as Tailwind v4 `@theme` keys and `@utility` rules.
+**`tailwind-m3e-web`** is the Tailwind v4 utility companion for **[@m3e/web](https://github.com/matraic/m3e)** — [matraic](https://github.com/matraic)'s framework-free Material 3 Expressive web components.
+
+It wraps `@m3e/web`'s design tokens AND every public component CSS variable as Tailwind v4 `@theme` keys and `@utility` rules, so you can style `@m3e/web` components with the same Tailwind utility classes you already use everywhere else.
+
+> **Scope:** This plugin targets `@m3e/web` specifically. The token layer (seed/ref/sys/@theme) follows M3 spec naming (`--md-sys-*`) and would technically work alongside any library that consumes those vars — but the component-utility surface (`/utilities` import) is `@m3e/web`-only. We do NOT target Google's `@material/web` (different var conventions, no shipped manifest).
 
 - 🎨 Four-layer override cascade (seed → ref palette → sys role → @theme key) — override at the layer matching your intent.
 - 🧮 OKLCH-derived tonal palettes — calibration table baked offline against [Material Color Utilities](https://github.com/material-foundation/material-color-utilities) (build-time only; no runtime dep on MCU). Change one seed colour, watch the whole app retint.
@@ -12,12 +16,12 @@ Tailwind v4 utility surface for **[@m3e/web](https://github.com/matraic/m3e)** �
 ## Install
 
 ```bash
-pnpm add tailwindcss-m3e
+pnpm add tailwind-m3e-web
 # Optional: install @m3e/web if you want the component-utility surface
 pnpm add @m3e/web
 ```
 
-> `@m3e/web` is an *optional* peer dependency. You only need it installed if you use `tailwindcss-m3e/utilities` (the component-utility surface). The main `tailwindcss-m3e` entry point (M3 design tokens) works without it.
+> `@m3e/web` is an *optional* peer dependency. You only need it installed if you use `tailwind-m3e-web/utilities` (the component-utility surface). The main `tailwind-m3e-web` entry point (M3 design tokens) works without it.
 
 Requires Tailwind v4. Requires Chrome 119+ / Safari 16.4+ / Firefox 128+ (gated on `oklch(from …)`).
 
@@ -27,9 +31,9 @@ Requires Tailwind v4. Requires Chrome 119+ / Safari 16.4+ / Firefox 128+ (gated 
 /* app.css */
 @import "tailwindcss";
 
-@import "tailwindcss-m3e";                  /* M3 tokens (Layers 0–3) */
-@import "tailwindcss-m3e/utilities";        /* @m3e/web component setters */
-@import "tailwindcss-m3e/roles-extended";   /* optional: success / info / warning */
+@import "tailwind-m3e-web";                  /* M3 tokens (Layers 0–3) */
+@import "tailwind-m3e-web/utilities";        /* @m3e/web component setters */
+@import "tailwind-m3e-web/roles-extended";   /* optional: success / info / warning */
 ```
 
 Now you can use utilities like:
@@ -95,9 +99,9 @@ The tone-to-OKLCH-L mapping is calibrated offline against `@material/material-co
 
 | Entry point | Surface |
 |---|---|
-| `tailwindcss-m3e` | Strict M3 spec — primary/secondary/tertiary/error/surface/outline/inverse/background roles + 6 spec tonal palettes. |
-| `tailwindcss-m3e/utilities` | Pre-built `@utility` rules for every public `--m3e-*` var in the pinned `@m3e/web` peerDep range. |
-| `tailwindcss-m3e/roles-extended` | Opt-in success/info/warning roles + tonal namespaces. |
+| `tailwind-m3e-web` | Strict M3 spec — primary/secondary/tertiary/error/surface/outline/inverse/background roles + 6 spec tonal palettes. |
+| `tailwind-m3e-web/utilities` | Pre-built `@utility` rules for every public `--m3e-*` var in the pinned `@m3e/web` peerDep range. |
+| `tailwind-m3e-web/roles-extended` | Opt-in success/info/warning roles + tonal namespaces. |
 
 Internal CSS files (`./seed.css`, `./ref/*`, `./sys/*`, `./theme.css`) are not reachable via `@import`; the `exports` map prevents direct access.
 
@@ -107,11 +111,11 @@ Peer-dep range: `"@m3e/web": "^2.5.0 <3"`. Plugin minors track `@m3e/web` minors
 
 ## Acknowledgments
 
-- **[@m3e/web](https://github.com/matraic/m3e)** by [matraic](https://github.com/matraic) — the foundation this plugin wraps. All component CSS variables exposed here are theirs. Go install it.
-- **[Material Color Utilities](https://github.com/material-foundation/material-color-utilities)** — referenced at build time to calibrate the OKLCH tone table. Apache-2.0.
+- **[@m3e/web](https://github.com/matraic/m3e)** by [matraic](https://github.com/matraic) — the library this plugin exists to support. All component CSS variables exposed here come from there. If you aren't using `@m3e/web`, this plugin probably isn't what you want.
+- **[Material Color Utilities](https://github.com/material-foundation/material-color-utilities)** — referenced at build time to calibrate the OKLCH tone table. Apache-2.0. No runtime dependency.
 
 ## License
 
 MIT, © 2026 Jack H Peterson and contributors.
 
-This project is not affiliated with or endorsed by Google. "Material Design" and "Material 3" are trademarks of Google LLC. The `@m3e/web` library is an independent project by matraic — this plugin builds on it but is maintained separately.
+This project is not affiliated with or endorsed by Google. "Material Design" and "Material 3" are trademarks of Google LLC. `@m3e/web` is an independent project by matraic — this plugin builds on it but is maintained separately.

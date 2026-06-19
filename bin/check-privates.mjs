@@ -13,8 +13,8 @@
  * bump introduces a silent regression.
  *
  * Usage:
- *   pnpm exec tailwindcss-m3e-check-privates              # check template
- *   pnpm exec tailwindcss-m3e-check-privates <path/to/css> # check custom file
+ *   pnpm exec tailwind-m3e-web-check-privates              # check template
+ *   pnpm exec tailwind-m3e-web-check-privates <path/to/css> # check custom file
  */
 
 import { readFile, readdir, stat } from "node:fs/promises";

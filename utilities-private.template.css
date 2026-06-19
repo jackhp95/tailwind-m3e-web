@@ -6,7 +6,7 @@
  * private — typically when an upstream component has no public escape
  * hatch for the styling you need.
  *
- * Run `pnpm exec tailwindcss-m3e-check-privates` (after installing this package
+ * Run `pnpm exec tailwind-m3e-web-check-privates` (after installing this package
  * locally as a workspace dep) to verify every --_* var listed below
  * actually exists in your installed @m3e/web build. Run after every
  * `@m3e/web` version bump.

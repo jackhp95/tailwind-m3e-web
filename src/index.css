@@ -1,14 +1,14 @@
 /*
- * Default-import barrel — `@import "tailwindcss-m3e"` resolves here.
+ * Default-import barrel — `@import "tailwind-m3e-web"` resolves here.
  *
  * Loads the four-layer cascade in dependency order:
  *   Layer 0 (seed) → Layer 1 (ref palette) → Layer 2 (sys) → Layer 3 (@theme)
  *
  * Consumers wanting the @m3e/web component-utility surface also add:
- *   @import "tailwindcss-m3e/utilities";
+ *   @import "tailwind-m3e-web/utilities";
  *
  * Consumers wanting success/info/warning add:
- *   @import "tailwindcss-m3e/roles-extended";
+ *   @import "tailwind-m3e-web/roles-extended";
  */
 
 /* Layer 0 — seed tokens. */

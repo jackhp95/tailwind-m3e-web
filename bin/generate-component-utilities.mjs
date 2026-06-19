@@ -20,7 +20,7 @@
  * byte-identical output. Use `git diff` to verify after running.
  *
  * Ported from VOLT-2044 (avetta/ui lemon branch) and adapted for the
- * standalone tailwindcss-m3e package layout.
+ * standalone tailwind-m3e-web package layout.
  */
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";

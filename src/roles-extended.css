@@ -2,8 +2,8 @@
  * OPT-IN extension — success / info / warning semantic roles.
  *
  * Consumers @import this AFTER the main barrel:
- *   @import "tailwindcss-m3e";
- *   @import "tailwindcss-m3e/roles-extended";
+ *   @import "tailwind-m3e-web";
+ *   @import "tailwind-m3e-web/roles-extended";
  *
  * Defaults use fixed OKLCH hues that are widely-recognised as their
  * respective semantic meaning:

@@ -1,7 +1,7 @@
 {
-  "name": "tailwindcss-m3e",
+  "name": "tailwind-m3e-web",
   "version": "0.1.0",
-  "description": "Tailwind v4 plugin exposing Material 3 Expressive design tokens and @m3e/web component CSS variables as utilities.",
+  "description": "Tailwind v4 utility surface for matraic's @m3e/web — Material 3 Expressive web components.",
   "license": "MIT",
   "type": "module",
   "engines": { "node": ">=20" },
@@ -9,15 +9,17 @@
     "tailwindcss",
     "tailwindcss-plugin",
     "tailwindcss-v4",
-    "material-design",
     "material-3",
     "m3",
     "m3e",
+    "m3e-web",
+    "matraic",
+    "web-components",
     "design-tokens",
     "design-system"
   ],
   "bin": {
-    "tailwindcss-m3e-check-privates": "./bin/check-privates.mjs"
+    "tailwind-m3e-web-check-privates": "./bin/check-privates.mjs"
   },
   "files": [
     "src/**/*.css",
