@@ -330,6 +330,14 @@
   --radius-md-corner-large: var(--md-sys-shape-corner-large);
   --radius-md-corner-extra-large: var(--md-sys-shape-corner-extra-large);
   --radius-md-corner-full: var(--md-sys-shape-corner-full);
+  --radius-md-corner-large-increased: var(--md-sys-shape-corner-large-increased);
+  --radius-md-corner-extra-large-increased: var(--md-sys-shape-corner-extra-large-increased);
+  --radius-md-corner-extra-extra-large: var(--md-sys-shape-corner-extra-extra-large);
+  --radius-md-corner-extra-small-top: var(--md-sys-shape-corner-extra-small-top);
+  --radius-md-corner-large-top: var(--md-sys-shape-corner-large-top);
+  --radius-md-corner-large-end: var(--md-sys-shape-corner-large-end);
+  --radius-md-corner-large-start: var(--md-sys-shape-corner-large-start);
+  --radius-md-corner-extra-large-top: var(--md-sys-shape-corner-extra-large-top);
 
   /* ──────────────────────────────────────────────────────────────────
      MOTION — easing + duration
@@ -341,22 +349,38 @@
   --ease-emphasized-accelerate: var(--md-sys-motion-easing-emphasized-accelerate);
   --ease-emphasized-decelerate: var(--md-sys-motion-easing-emphasized-decelerate);
 
-  --duration-short-1: var(--md-sys-motion-duration-short1);
-  --duration-short-2: var(--md-sys-motion-duration-short2);
-  --duration-short-3: var(--md-sys-motion-duration-short3);
-  --duration-short-4: var(--md-sys-motion-duration-short4);
-  --duration-medium-1: var(--md-sys-motion-duration-medium1);
-  --duration-medium-2: var(--md-sys-motion-duration-medium2);
-  --duration-medium-3: var(--md-sys-motion-duration-medium3);
-  --duration-medium-4: var(--md-sys-motion-duration-medium4);
-  --duration-long-1: var(--md-sys-motion-duration-long1);
-  --duration-long-2: var(--md-sys-motion-duration-long2);
-  --duration-long-3: var(--md-sys-motion-duration-long3);
-  --duration-long-4: var(--md-sys-motion-duration-long4);
-  --duration-extra-long-1: var(--md-sys-motion-duration-extra-long1);
-  --duration-extra-long-2: var(--md-sys-motion-duration-extra-long2);
-  --duration-extra-long-3: var(--md-sys-motion-duration-extra-long3);
-  --duration-extra-long-4: var(--md-sys-motion-duration-extra-long4);
+  --duration-short-1: var(--md-sys-motion-duration-short-1);
+  --duration-short-2: var(--md-sys-motion-duration-short-2);
+  --duration-short-3: var(--md-sys-motion-duration-short-3);
+  --duration-short-4: var(--md-sys-motion-duration-short-4);
+  --duration-medium-1: var(--md-sys-motion-duration-medium-1);
+  --duration-medium-2: var(--md-sys-motion-duration-medium-2);
+  --duration-medium-3: var(--md-sys-motion-duration-medium-3);
+  --duration-medium-4: var(--md-sys-motion-duration-medium-4);
+  --duration-long-1: var(--md-sys-motion-duration-long-1);
+  --duration-long-2: var(--md-sys-motion-duration-long-2);
+  --duration-long-3: var(--md-sys-motion-duration-long-3);
+  --duration-long-4: var(--md-sys-motion-duration-long-4);
+  --duration-extra-long-1: var(--md-sys-motion-duration-extra-long-1);
+  --duration-extra-long-2: var(--md-sys-motion-duration-extra-long-2);
+  --duration-extra-long-3: var(--md-sys-motion-duration-extra-long-3);
+  --duration-extra-long-4: var(--md-sys-motion-duration-extra-long-4);
+
+  /* SPRING — animation springs */
+  --spring-md-fast-spatial: var(--md-sys-motion-spring-fast-spatial);
+  --spring-md-default-spatial: var(--md-sys-motion-spring-default-spatial);
+  --spring-md-slow-spatial: var(--md-sys-motion-spring-slow-spatial);
+  --spring-md-fast-effects: var(--md-sys-motion-spring-fast-effects);
+  --spring-md-default-effects: var(--md-sys-motion-spring-default-effects);
+  --spring-md-slow-effects: var(--md-sys-motion-spring-slow-effects);
+
+  /*
+   * NOTE: --md-sys-state-* and --md-sys-density-* tokens are intentionally
+   * not mapped to @theme keys for v0. They are consumed internally by
+   * @m3e/web's state-layer and density-scale calc() expressions, not
+   * surfaced as user-facing Tailwind utilities. Override the source vars
+   * (--md-sys-state-hover-state-layer-opacity, etc.) directly if needed.
+   */
 
   /* ──────────────────────────────────────────────────────────────────
      ELEVATION — shadow tokens

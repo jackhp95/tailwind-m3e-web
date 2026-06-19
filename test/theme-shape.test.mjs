@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { readFile } from "node:fs/promises";
+import { readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -21,6 +22,36 @@ const SPEC_ROLES = [
 
 const SPEC_PALETTES = ["primary", "secondary", "tertiary", "error", "neutral", "neutral-variant"];
 const SPEC_TONES = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 99, 100];
+
+describe("theme.css references every sys var", () => {
+  it("every --md-sys-* declared in sys/*.css appears as a var() reference in theme.css", async () => {
+    const themeCss = await readFile(join(SRC, "theme.css"), "utf8");
+    const sysFiles = readdirSync(join(SRC, "sys")).filter((f) => f.endsWith(".css"));
+
+    // Vars deliberately not surfaced as theme keys (documented in theme.css):
+    const SKIP = new Set([
+      // density + state — see NOTE comment in theme.css
+      "--md-sys-density-scale",
+      "--md-sys-density-size",
+      "--md-sys-state-focus-state-layer-opacity",
+      "--md-sys-state-hover-state-layer-opacity",
+      "--md-sys-state-pressed-state-layer-opacity",
+      // shape `corner-value-*` are internal canonical inputs (referenced via the public corner-* names):
+      // matched below by name prefix
+    ]);
+
+    for (const file of sysFiles) {
+      const css = await readFile(join(SRC, "sys", file), "utf8");
+      // Match left-hand-side declarations: lines like `  --md-sys-color-primary: ...`.
+      const declared = [...css.matchAll(/^[ \t]*(--md-sys-[a-z0-9\-]+)\s*:/gm)].map((m) => m[1]);
+      for (const v of declared) {
+        if (SKIP.has(v)) continue;
+        if (/^--md-sys-shape-corner-value-/.test(v)) continue; // canonical inputs
+        expect(themeCss, `${file}: ${v}`).toContain(`var(${v})`);
+      }
+    }
+  });
+});
 
 describe("theme.css strict M3 surface", () => {
   it("declares every spec semantic role exactly once", async () => {
