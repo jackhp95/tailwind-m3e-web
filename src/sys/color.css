@@ -10,8 +10,6 @@
  *     through shadow boundaries, so setting them on :root makes them
  *     available to every m3e component.
  *
- * Dynamic role overrides for themed contexts live in themes.css, which
- * loads after this file and overrides --md-sys-color-* for nested contexts.
  *
  * M3 spec tone assignments for color roles:
  *   Light: primary=40, on-primary=100, container=90, on-container=10
@@ -47,10 +45,10 @@
   );
   --on-surface: light-dark(var(--md-ref-palette-neutral-10), var(--md-ref-palette-neutral-90));
 
-  --surface-variant: light-dark(var(--md-ref-palette-neutral-90), var(--md-ref-palette-neutral-30));
+  --surface-variant: light-dark(var(--md-ref-palette-neutral-variant-90), var(--md-ref-palette-neutral-variant-30));
   --on-surface-variant: light-dark(
-    var(--md-ref-palette-neutral-30),
-    var(--md-ref-palette-neutral-80)
+    var(--md-ref-palette-neutral-variant-30),
+    var(--md-ref-palette-neutral-variant-80)
   );
 
   --surface-dim: light-dark(
@@ -83,8 +81,8 @@
     oklch(from var(--md-ref-palette-neutral-20) calc(l + 0.02) c h)
   );
 
-  --outline: light-dark(var(--md-ref-palette-neutral-50), var(--md-ref-palette-neutral-60));
-  --outline-variant: light-dark(var(--md-ref-palette-neutral-80), var(--md-ref-palette-neutral-30));
+  --outline: light-dark(var(--md-ref-palette-neutral-variant-50), var(--md-ref-palette-neutral-variant-60));
+  --outline-variant: light-dark(var(--md-ref-palette-neutral-variant-80), var(--md-ref-palette-neutral-variant-30));
 
   --inverse-surface: light-dark(var(--md-ref-palette-neutral-20), var(--md-ref-palette-neutral-90));
   --inverse-on-surface: light-dark(

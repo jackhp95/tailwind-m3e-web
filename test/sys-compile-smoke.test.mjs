@@ -17,7 +17,7 @@ describe("sys layer files", () => {
   it("no file references Avetta selectors", async () => {
     for (const layer of ["color", "typescale", "motion", "shape", "elevation", "state", "density"]) {
       const css = await readFile(join(SRC, "sys", `${layer}.css`), "utf8");
-      expect(css).not.toMatch(/avt-|avetta|data-avt/i);
+      expect(css).not.toMatch(/avt-|avetta|data-avt|theme-[a-z]/i);
     }
   });
 });
