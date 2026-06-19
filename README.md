@@ -2,10 +2,10 @@
 
 [![CI](https://github.com/<owner>/tailwindcss-m3e/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/tailwindcss-m3e/actions/workflows/ci.yml)
 
-Tailwind v4 plugin exposing **Material 3 Expressive** design tokens and **every [@m3e/web](https://github.com/matraic/m3e) component CSS variable** as Tailwind utilities.
+Tailwind v4 utility surface for **[@m3e/web](https://github.com/matraic/m3e)** — matraic's framework-free Material 3 Expressive web components. Wraps `@m3e/web`'s design tokens AND every public component CSS variable as Tailwind v4 `@theme` keys and `@utility` rules.
 
 - 🎨 Four-layer override cascade (seed → ref palette → sys role → @theme key) — override at the layer matching your intent.
-- 🧮 OKLCH-derived tonal palettes calibrated against [Material Color Utilities](https://github.com/material-foundation/material-color-utilities). Change one seed colour, watch the whole app retint.
+- 🧮 OKLCH-derived tonal palettes — calibration table baked offline against [Material Color Utilities](https://github.com/material-foundation/material-color-utilities) (build-time only; no runtime dep on MCU). Change one seed colour, watch the whole app retint.
 - 🧩 ~2,245 auto-generated `@utility` rules covering every public `--m3e-*` CSS variable in `@m3e/web`.
 - 🪶 Tailwind v4 only emits the rules you actually use — net bundle cost ≈ 0.
 
@@ -105,6 +105,13 @@ Internal CSS files (`./seed.css`, `./ref/*`, `./sys/*`, `./theme.css`) are not r
 
 Peer-dep range: `"@m3e/web": "^2.5.0 <3"`. Plugin minors track `@m3e/web` minors (new component vars regen the utilities). Plugin majors track `@m3e/web` breaking changes OR breaking `@theme` rename/remove.
 
+## Acknowledgments
+
+- **[@m3e/web](https://github.com/matraic/m3e)** by [matraic](https://github.com/matraic) — the foundation this plugin wraps. All component CSS variables exposed here are theirs. Go install it.
+- **[Material Color Utilities](https://github.com/material-foundation/material-color-utilities)** — referenced at build time to calibrate the OKLCH tone table. Apache-2.0.
+
 ## License
 
-MIT. Material Design 3 specifications and the `@m3e/web` library are independent works by their respective owners; this plugin is not affiliated with or endorsed by Google or `matraic`.
+MIT, © 2026 Jack H Peterson and contributors.
+
+This project is not affiliated with or endorsed by Google. "Material Design" and "Material 3" are trademarks of Google LLC. The `@m3e/web` library is an independent project by matraic — this plugin builds on it but is maintained separately.
