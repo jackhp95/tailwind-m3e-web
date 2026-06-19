@@ -1,6 +1,6 @@
 # tailwind-m3e-web
 
-[![CI](https://github.com/<owner>/tailwind-m3e-web/actions/workflows/ci.yml/badge.svg)](https://github.com/<owner>/tailwind-m3e-web/actions/workflows/ci.yml)
+[![CI](https://github.com/jackhp95/tailwind-m3e-web/actions/workflows/ci.yml/badge.svg)](https://github.com/jackhp95/tailwind-m3e-web/actions/workflows/ci.yml)
 
 **`tailwind-m3e-web`** is the Tailwind v4 utility companion for **[@m3e/web](https://github.com/matraic/m3e)** — [matraic](https://github.com/matraic)'s framework-free Material 3 Expressive web components.
 

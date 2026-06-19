@@ -5,6 +5,14 @@
   "license": "MIT",
   "type": "module",
   "engines": { "node": ">=20" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackhp95/tailwind-m3e-web.git"
+  },
+  "homepage": "https://github.com/jackhp95/tailwind-m3e-web#readme",
+  "bugs": {
+    "url": "https://github.com/jackhp95/tailwind-m3e-web/issues"
+  },
   "keywords": [
     "tailwindcss",
     "tailwindcss-plugin",
