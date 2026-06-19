@@ -23,7 +23,7 @@ Material 3 button.
 |---|---|---|---|
 | \`--m3e-button-container-color\` | \`color\` | \`--color-*\` | Container fill colour. |
 | \`--m3e-button-container-color-on-scroll\` | \`color\` | \`--color-*\` | Container colour during scroll state. |
-| \`--m3e-button-duration\` | \`time\` | \`--duration-*\` | State-change duration. |
+| \`--m3e-button-duration\` | \`time\` | \`--transition-duration-*\` | State-change duration. |
 | \`--m3e-button-elevation\` | \`*\` | \`--shadow-*\` | Shadow elevation. |
 | \`--m3e-button-label-text-color\` | \`color\` | \`--color-*\` | Label colour. |
 | \`--m3e-button-shape\` | \`length\` | \`--radius-*\` | Corner radius. |
@@ -63,7 +63,7 @@ exports[`generate-component-utilities > emitUtilities output is byte-stable acro
 }
 
 @utility m3e-button-duration-* {
-  --m3e-button-duration: --value([time], --duration-*);
+  --m3e-button-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-button-elevation-* {

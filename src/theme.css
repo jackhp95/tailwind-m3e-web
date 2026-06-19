@@ -8,7 +8,7 @@
  *                            letter-spacing + font-weight via the v4 modifier syntax)
  *   --radius-md-corner-medium  →  rounded-md-corner-medium
  *   --ease-standard     →  ease-standard
- *   --duration-short-2  →  duration-short-2
+ *   --transition-duration-short-2  →  duration-short-2
  *   --shadow-md-level1  →  shadow-md-level1
  *
  * Strict M3 spec only. The success/info/warning roles ship in
@@ -349,22 +349,22 @@
   --ease-emphasized-accelerate: var(--md-sys-motion-easing-emphasized-accelerate);
   --ease-emphasized-decelerate: var(--md-sys-motion-easing-emphasized-decelerate);
 
-  --duration-short-1: var(--md-sys-motion-duration-short-1);
-  --duration-short-2: var(--md-sys-motion-duration-short-2);
-  --duration-short-3: var(--md-sys-motion-duration-short-3);
-  --duration-short-4: var(--md-sys-motion-duration-short-4);
-  --duration-medium-1: var(--md-sys-motion-duration-medium-1);
-  --duration-medium-2: var(--md-sys-motion-duration-medium-2);
-  --duration-medium-3: var(--md-sys-motion-duration-medium-3);
-  --duration-medium-4: var(--md-sys-motion-duration-medium-4);
-  --duration-long-1: var(--md-sys-motion-duration-long-1);
-  --duration-long-2: var(--md-sys-motion-duration-long-2);
-  --duration-long-3: var(--md-sys-motion-duration-long-3);
-  --duration-long-4: var(--md-sys-motion-duration-long-4);
-  --duration-extra-long-1: var(--md-sys-motion-duration-extra-long-1);
-  --duration-extra-long-2: var(--md-sys-motion-duration-extra-long-2);
-  --duration-extra-long-3: var(--md-sys-motion-duration-extra-long-3);
-  --duration-extra-long-4: var(--md-sys-motion-duration-extra-long-4);
+  --transition-duration-short-1: var(--md-sys-motion-duration-short-1);
+  --transition-duration-short-2: var(--md-sys-motion-duration-short-2);
+  --transition-duration-short-3: var(--md-sys-motion-duration-short-3);
+  --transition-duration-short-4: var(--md-sys-motion-duration-short-4);
+  --transition-duration-medium-1: var(--md-sys-motion-duration-medium-1);
+  --transition-duration-medium-2: var(--md-sys-motion-duration-medium-2);
+  --transition-duration-medium-3: var(--md-sys-motion-duration-medium-3);
+  --transition-duration-medium-4: var(--md-sys-motion-duration-medium-4);
+  --transition-duration-long-1: var(--md-sys-motion-duration-long-1);
+  --transition-duration-long-2: var(--md-sys-motion-duration-long-2);
+  --transition-duration-long-3: var(--md-sys-motion-duration-long-3);
+  --transition-duration-long-4: var(--md-sys-motion-duration-long-4);
+  --transition-duration-extra-long-1: var(--md-sys-motion-duration-extra-long-1);
+  --transition-duration-extra-long-2: var(--md-sys-motion-duration-extra-long-2);
+  --transition-duration-extra-long-3: var(--md-sys-motion-duration-extra-long-3);
+  --transition-duration-extra-long-4: var(--md-sys-motion-duration-extra-long-4);
 
   /* SPRING — animation springs */
   --spring-md-fast-spatial: var(--md-sys-motion-spring-fast-spatial);

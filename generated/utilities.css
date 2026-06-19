@@ -1205,7 +1205,7 @@
 }
 
 @utility m3e-calendar-slide-animation-duration-* {
-  --m3e-calendar-slide-animation-duration: --value([time], --duration-*);
+  --m3e-calendar-slide-animation-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-calendar-weekday-color-* {
@@ -1541,7 +1541,7 @@
 }
 
 @utility m3e-collapsible-animation-duration-* {
-  --m3e-collapsible-animation-duration: --value([time], --duration-*);
+  --m3e-collapsible-animation-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-connected-button-group-extra-large-inner-pressed-shape-* {
@@ -2121,7 +2121,7 @@
 }
 
 @utility m3e-elevation-lift-duration-* {
-  --m3e-elevation-lift-duration: --value([time], --duration-*);
+  --m3e-elevation-lift-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-elevation-lift-easing-* {
@@ -2133,7 +2133,7 @@
 }
 
 @utility m3e-elevation-settle-duration-* {
-  --m3e-elevation-settle-duration: --value([time], --duration-*);
+  --m3e-elevation-settle-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-elevation-settle-easing-* {
@@ -2141,7 +2141,7 @@
 }
 
 @utility m3e-expandable-list-item-bounce-duration-* {
-  --m3e-expandable-list-item-bounce-duration: --value([time], --duration-*);
+  --m3e-expandable-list-item-bounce-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-expandable-list-item-bounce-factor-* {
@@ -2149,7 +2149,7 @@
 }
 
 @utility m3e-expandable-list-item-expand-duration-* {
-  --m3e-expandable-list-item-expand-duration: --value([time], --duration-*);
+  --m3e-expandable-list-item-expand-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-expandable-list-item-expanded-toggle-icon-container-color-* {
@@ -3041,7 +3041,7 @@
 }
 
 @utility m3e-focus-ring-duration-* {
-  --m3e-focus-ring-duration: --value([time], --duration-*);
+  --m3e-focus-ring-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-focus-ring-factor-* {
@@ -5569,11 +5569,11 @@
 }
 
 @utility m3e-ripple-enter-duration-* {
-  --m3e-ripple-enter-duration: --value([time], --duration-*);
+  --m3e-ripple-enter-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-ripple-exit-duration-* {
-  --m3e-ripple-exit-duration: --value([time], --duration-*);
+  --m3e-ripple-exit-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-ripple-opacity-* {
@@ -6253,7 +6253,7 @@
 }
 
 @utility m3e-slide-animation-duration-* {
-  --m3e-slide-animation-duration: --value([time], --duration-*);
+  --m3e-slide-animation-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-slide-group-button-icon-size-* {
@@ -6829,7 +6829,7 @@
 }
 
 @utility m3e-state-layer-duration-* {
-  --m3e-state-layer-duration: --value([time], --duration-*);
+  --m3e-state-layer-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-state-layer-easing-* {
@@ -7965,7 +7965,7 @@
 }
 
 @utility m3e-toc-active-indicator-animation-duration-* {
-  --m3e-toc-active-indicator-animation-duration: --value([time], --duration-*);
+  --m3e-toc-active-indicator-animation-duration: --value([time], --transition-duration-*);
 }
 
 @utility m3e-toc-active-indicator-color-* {

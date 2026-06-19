@@ -65,7 +65,7 @@ const RULES = [
   [(n) => /-(font-family|font)(-|$)/.test(n), "*", "font"],
 
   // Motion
-  [(n) => /-duration(-|$)/.test(n), "time", "duration"],
+  [(n) => /-duration(-|$)/.test(n), "time", "transition-duration"],
   [(n) => /-easing(-|$)/.test(n), "*", "ease"],
   [(n) => /-transition(-|$)/.test(n), "*"],
   [(n) => /-transform(-|$)/.test(n), "*"],

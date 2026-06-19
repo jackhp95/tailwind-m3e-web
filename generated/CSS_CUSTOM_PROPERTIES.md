@@ -804,7 +804,7 @@ A calendar used to select a date.
 | `--m3e-calendar-period-button-text-color` | `color` | `--color-*` | Text color used for the period‑navigation buttons in the header. |
 | `--m3e-calendar-range-color` | `color` | `--color-*` | Text color for dates within a selected range. |
 | `--m3e-calendar-range-container-color` | `color` | `--color-*` | Background color applied to the selected date range. |
-| `--m3e-calendar-slide-animation-duration` | `time` | `--duration-*` | Duration of slide transitions between calendar views. |
+| `--m3e-calendar-slide-animation-duration` | `time` | `--transition-duration-*` | Duration of slide transitions between calendar views. |
 | `--m3e-calendar-weekday-color` | `color` | `--color-*` | Text color for weekday labels in month view. |
 | `--m3e-calendar-weekday-font-size` | `length` | `--text-*` | Font size of weekday labels in month view. |
 | `--m3e-calendar-weekday-font-weight` | `number` | `--font-weight-*` | Font weight of weekday labels in month view. |
@@ -979,7 +979,7 @@ A container used to expand and collapse content.
 
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
-| `--m3e-collapsible-animation-duration` | `time` | `--duration-*` | The duration of the expand / collapse animation. |
+| `--m3e-collapsible-animation-duration` | `time` | `--transition-duration-*` | The duration of the expand / collapse animation. |
 
 ## `m3e-content-pane`
 
@@ -1085,10 +1085,10 @@ Visually depicts elevation using a shadow.
 | `--m3e-elevation-focus-level` | `*` | `--shadow-*` | Elevation on focus (box-shadow). |
 | `--m3e-elevation-hover-level` | `*` | `--shadow-*` | Elevation on hover (box-shadow). |
 | `--m3e-elevation-level` | `*` | `--shadow-*` | Elevation when resting (box-shadow). |
-| `--m3e-elevation-lift-duration` | `time` | `--duration-*` | Duration when lifting. |
+| `--m3e-elevation-lift-duration` | `time` | `--transition-duration-*` | Duration when lifting. |
 | `--m3e-elevation-lift-easing` | `*` | `--ease-*` | Easing curve when lifting. |
 | `--m3e-elevation-pressed-level` | `*` | `--shadow-*` | Elevation on pressed (box-shadow). |
-| `--m3e-elevation-settle-duration` | `time` | `--duration-*` | Duration when settling. |
+| `--m3e-elevation-settle-duration` | `time` | `--transition-duration-*` | Duration when settling. |
 | `--m3e-elevation-settle-easing` | `*` | `--ease-*` | Easing curve when settling. |
 
 ## `m3e-expandable-list-item`
@@ -1097,9 +1097,9 @@ An item in a list that can be expanded to show more items.
 
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
-| `--m3e-expandable-list-item-bounce-duration` | `time` | `--duration-*` | Duration of the bounce animation when expanding. |
+| `--m3e-expandable-list-item-bounce-duration` | `time` | `--transition-duration-*` | Duration of the bounce animation when expanding. |
 | `--m3e-expandable-list-item-bounce-factor` | `*` | — | Multiplication factor for the bounce effect. |
-| `--m3e-expandable-list-item-expand-duration` | `time` | `--duration-*` | Duration of the expand/collapse animation. |
+| `--m3e-expandable-list-item-expand-duration` | `time` | `--transition-duration-*` | Duration of the expand/collapse animation. |
 | `--m3e-expandable-list-item-expanded-toggle-icon-container-color` | `color` | `--color-*` | Background color of the toggle icon container when expanded. |
 | `--m3e-expandable-list-item-toggle-icon-container-shape` | `length` | `--radius-*` | Border radius of the toggle icon container. |
 | `--m3e-expandable-list-item-toggle-icon-container-width` | `length` | — | Width of the toggle icon container. |
@@ -1622,7 +1622,7 @@ A focus ring used to depict a strong focus indicator.
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
 | `--m3e-focus-ring-color` | `color` | `--color-*` | The color of the focus ring. |
-| `--m3e-focus-ring-duration` | `time` | `--duration-*` | The duration of the focus ring animation. |
+| `--m3e-focus-ring-duration` | `time` | `--transition-duration-*` | The duration of the focus ring animation. |
 | `--m3e-focus-ring-growth-factor` | `*` | — | The factor by which the focus ring grows. |
 | `--m3e-focus-ring-inward-offset` | `length` | — | Offset of an inward focus ring. |
 | `--m3e-focus-ring-outward-offset` | `length` | — | Offset of an outward focus ring. |
@@ -2847,8 +2847,8 @@ Connects user input to screen reactions using ripples.
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
 | `--m3e-ripple-color` | `color` | `--color-*` | The color of the ripple. |
-| `--m3e-ripple-enter-duration` | `time` | `--duration-*` | The duration for the enter animation (expansion from point of contact). |
-| `--m3e-ripple-exit-duration` | `time` | `--duration-*` | The duration for the exit animation (fade-out). |
+| `--m3e-ripple-enter-duration` | `time` | `--transition-duration-*` | The duration for the enter animation (expansion from point of contact). |
+| `--m3e-ripple-exit-duration` | `time` | `--transition-duration-*` | The duration for the exit animation (fade-out). |
 | `--m3e-ripple-opacity` | `number` | — | The opacity of the ripple. |
 | `--m3e-ripple-scale-factor` | `*` | — | The factor by which to scale the ripple. |
 | `--m3e-ripple-shape` | `length` | `--radius-*` | The shape of the ripple. |
@@ -2862,7 +2862,7 @@ A vertically oriented content container which presents dividers above and below 
 | `--m3e-divider-color` | `color` | `--color-*` | Color of the divider lines when visible. |
 | `--m3e-divider-thickness` | `length` | — | Thickness of the divider lines above and below content. |
 | `--m3e-focus-ring-color` | `color` | `--color-*` | Color of the focus ring outline. |
-| `--m3e-focus-ring-duration` | `time` | `--duration-*` | Duration of the focus ring animation. |
+| `--m3e-focus-ring-duration` | `time` | `--transition-duration-*` | Duration of the focus ring animation. |
 | `--m3e-focus-ring-factor` | `*` | — | Animation factor for focus ring thickness. |
 | `--m3e-focus-ring-thickness` | `length` | — | Thickness of the focus ring outline. |
 
@@ -2998,7 +2998,7 @@ A carousel-like container used to horizontally cycle through slotted items.
 
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
-| `--m3e-slide-animation-duration` | `time` | `--duration-*` | The duration of transitions between slotted items. |
+| `--m3e-slide-animation-duration` | `time` | `--transition-duration-*` | The duration of transitions between slotted items. |
 
 ## `m3e-slide-group`
 
@@ -3158,7 +3158,7 @@ Provides focus and hover state layer treatment for an interactive element.
 
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
-| `--m3e-state-layer-duration` | `time` | `--duration-*` | Duration of state layer changes. |
+| `--m3e-state-layer-duration` | `time` | `--transition-duration-*` | Duration of state layer changes. |
 | `--m3e-state-layer-easing` | `*` | `--ease-*` | Easing curve of state layer changes. |
 | `--m3e-state-layer-focus-color` | `color` | `--color-*` | Color on hover. |
 | `--m3e-state-layer-focus-opacity` | `number` | — | Opacity on focus. |
@@ -3401,7 +3401,7 @@ A table of contents that provides in-page scroll navigation.
 
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
-| `--m3e-toc-active-indicator-animation-duration` | `time` | `--duration-*` | Animation duration for the active indicator. |
+| `--m3e-toc-active-indicator-animation-duration` | `time` | `--transition-duration-*` | Animation duration for the active indicator. |
 | `--m3e-toc-active-indicator-color` | `color` | `--color-*` | Border color of the active indicator. |
 | `--m3e-toc-container-color` | `color` | `--color-*` | Background color of the table of contents container. |
 | `--m3e-toc-container-padding-block` | `length` | — | Block padding of the table of contents container. |
@@ -3427,7 +3427,7 @@ An item in a table of contents.
 
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
-| `--m3e-toc-active-indicator-animation-duration` | `time` | `--duration-*` | Animation duration for the active indicator. |
+| `--m3e-toc-active-indicator-animation-duration` | `time` | `--transition-duration-*` | Animation duration for the active indicator. |
 | `--m3e-toc-item-color` | `color` | `--color-*` | Text color for unselected items. |
 | `--m3e-toc-item-font-size` | `length` | `--text-*` | Font size for unselected items. |
 | `--m3e-toc-item-font-weight` | `number` | `--font-weight-*` | Font weight for unselected items. |
