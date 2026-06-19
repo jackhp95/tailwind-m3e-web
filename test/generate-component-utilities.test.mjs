@@ -10,11 +10,11 @@ describe("generate-component-utilities", () => {
   it("extracts every public --m3e-* var from the manifest", async () => {
     const manifest = JSON.parse(await readFile(join(FIXTURES, "m3e-manifest-mini.json"), "utf8"));
     const { flatUnique, byComponent } = extractCssProperties(manifest);
-    expect(flatUnique.size).toBe(7); // 5 button vars + 2 icon vars
+    expect(flatUnique.size).toBe(8); // 6 button vars + 2 icon vars
     expect(byComponent.size).toBe(2); // m3e-button + m3e-icon
   });
 
-  it("infers types via suffix heuristics", async () => {
+  it("infers types via regex heuristics", async () => {
     const manifest = JSON.parse(await readFile(join(FIXTURES, "m3e-manifest-mini.json"), "utf8"));
     const { flatUnique } = extractCssProperties(manifest);
     expect(flatUnique.get("--m3e-button-container-color")).toMatchObject({ type: "color", ns: "color" });
@@ -22,6 +22,12 @@ describe("generate-component-utilities", () => {
     expect(flatUnique.get("--m3e-button-elevation").type).toBe("*");
     expect(flatUnique.get("--m3e-button-duration").type).toBe("time");
     expect(flatUnique.get("--m3e-icon-size").type).toBe("length");
+  });
+
+  it("infers color type for state-qualified color vars (regex matches mid-name -color-)", async () => {
+    const manifest = JSON.parse(await readFile(join(FIXTURES, "m3e-manifest-mini.json"), "utf8"));
+    const { flatUnique } = extractCssProperties(manifest);
+    expect(flatUnique.get("--m3e-button-container-color-on-scroll")?.type).toBe("color");
   });
 
   it("emitUtilities output is byte-stable across two runs (snapshot)", async () => {

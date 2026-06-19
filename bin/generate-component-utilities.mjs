@@ -2,206 +2,245 @@
 /*
  * bin/generate-component-utilities.mjs
  *
- * Pipeline B — reads @m3e/web's custom-elements.json and emits:
- *   generated/utilities.css   — one Tailwind v4 @utility rule per public
- *                               --m3e-* CSS custom property, sorted
- *                               alphabetically by var name (~2,245 rules).
- *   generated/CSS_CUSTOM_PROPERTIES.md — Markdown reference doc grouped
- *                               by component.
+ * Reads node_modules/@m3e/web/dist/custom-elements.json and emits:
  *
- * Output is deterministic: same manifest → byte-identical files.
- * Pre-built and checked in; re-run only when bumping @m3e/web.
+ *   1. generated/utilities.css
+ *      One @utility rule per public --m3e-* CSS custom property.
+ *      Each rule uses Tailwind v4's --value(<type>, --<namespace>-*)
+ *      syntax so call sites can pass either an arbitrary value or a
+ *      theme key. Inert under Tailwind v3.
  *
- * Lifted from VOLT-2044 (avetta/ui lemon branch) and adapted for the
+ *   2. generated/CSS_CUSTOM_PROPERTIES.md
+ *      Structured reference, grouped by component, with type + description.
+ *
+ * Type inference is suffix-driven, with a small hand-corrected override
+ * map for ambiguous names. See `inferType()` and `OVERRIDES` below.
+ *
+ * Determinism: re-running this script on the same manifest produces
+ * byte-identical output. Use `git diff` to verify after running.
+ *
+ * Ported from VOLT-2044 (avetta/ui lemon branch) and adapted for the
  * standalone tailwindcss-m3e package layout.
  */
+
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
-
 const MANIFEST_PATH = join(ROOT, "node_modules", "@m3e", "web", "dist", "custom-elements.json");
 const OUT_UTILITIES = join(ROOT, "generated", "utilities.css");
 const OUT_DOC = join(ROOT, "generated", "CSS_CUSTOM_PROPERTIES.md");
 
-// ---------------------------------------------------------------------------
-// Type inference: maps the last segment of a CSS var name to a Tailwind v4
-// value type and (where applicable) a theme namespace for --value().
-// ---------------------------------------------------------------------------
+/* ──────────────────────────────────────────────────────────────────
+   Type inference
 
-/** @type {Map<string, {type: string, ns: string|null}>} */
-const SUFFIX_MAP = new Map([
-  ["color", { type: "color", ns: "color" }],
-  ["height", { type: "length", ns: "spacing" }],
-  ["width", { type: "length", ns: "spacing" }],
-  ["size", { type: "length", ns: "spacing" }],
-  ["shape", { type: "length", ns: "radius" }],
-  ["space", { type: "length", ns: "spacing" }],
-  ["spacing", { type: "length", ns: "spacing" }],
-  ["padding", { type: "length", ns: "spacing" }],
-  ["margin", { type: "length", ns: "spacing" }],
-  ["gap", { type: "length", ns: "spacing" }],
-  ["inset", { type: "length", ns: "spacing" }],
-  ["offset", { type: "length", ns: "spacing" }],
-  ["thickness", { type: "length", ns: "spacing" }],
-  ["tracking", { type: "length", ns: "tracking" }],
-  ["duration", { type: "time", ns: "duration" }],
-  ["opacity", { type: "number", ns: "opacity" }],
-  ["weight", { type: "number", ns: "font-weight" }],
-  ["level", { type: "integer", ns: null }],
-]);
+   Each entry: [matcher, type, themeNamespace?]
+     - matcher: (name, description) => boolean
+     - type: Tailwind v4 --value() type token (e.g. "color", "length")
+     - themeNamespace: optional --theme-key prefix that lets call sites
+       pass theme keys (e.g. m3e-foo-color-primary → --color-primary)
 
-/**
- * Infer the Tailwind v4 value type and theme namespace from a CSS var name.
- * Falls back to `{ type: "*", ns: null }` for unknown suffixes.
- *
- * @param {string} varName - e.g. "--m3e-button-container-color"
- * @returns {{ type: string, ns: string|null }}
- */
-function inferType(varName) {
-  const parts = varName.split("-");
-  const suffix = parts[parts.length - 1];
-  return SUFFIX_MAP.get(suffix) ?? { type: "*", ns: null };
+   First match wins. Order matters — put more specific patterns first.
+   ────────────────────────────────────────────────────────────────── */
+
+/* Patterns match "type token followed by - or end". This catches state-
+   suffix variants like --foo-color-on-scroll (color with state qualifier
+   at end) AND prefixed variants like --foo-hover-container-color. */
+
+const RULES = [
+  // Colors
+  [(n) => /-color(-|$)/.test(n), "color", "color"],
+
+  // Radii / shape
+  [(n) => /-shape(-|$)/.test(n), "length", "radius"],
+  [(n) => /-corner-/.test(n), "length", "radius"],
+
+  // Typography
+  [(n) => /-(font-size|text-size)(-|$)/.test(n), "length", "text"],
+  [(n) => /-line-height(-|$)/.test(n), "length", "leading"],
+  [(n) => /-(tracking|letter-spacing)(-|$)/.test(n), "length", "tracking"],
+  [(n) => /-font-weight(-|$)/.test(n), "number", "font-weight"],
+  [(n) => /-(font-family|font)(-|$)/.test(n), "*", "font"],
+
+  // Motion
+  [(n) => /-duration(-|$)/.test(n), "time", "duration"],
+  [(n) => /-easing(-|$)/.test(n), "*", "ease"],
+  [(n) => /-transition(-|$)/.test(n), "*"],
+  [(n) => /-transform(-|$)/.test(n), "*"],
+
+  // Elevation
+  [(n) => /-elevation(-|$)/.test(n), "*", "shadow"],
+
+  // Opacity & numeric scalars
+  [(n) => /-opacity(-|$)/.test(n), "number"],
+  [(n) => /-z-index(-|$)/.test(n), "number"],
+
+  // Lengths (catch-all for spatial dims). Component-local — no namespace.
+  [
+    (n) =>
+      /-(size|height|width|spacing|space|offset|thickness|gap|inset|outset|reserved|peek-height|top-space|bottom-space|start-space|end-space)(-|$)/.test(
+        n,
+      ),
+    "length",
+  ],
+  [(n) => /-(padding|margin)(-[a-z]+)?(-|$)/.test(n), "length"],
+  [(n) => /-(min|max)-(width|height|size|inline-size|block-size)(-|$)/.test(n), "length"],
+  [(n) => /-(left|right|top|bottom)(-|$)/.test(n), "length"],
+];
+
+/* Hand-corrected overrides for ambiguous or non-suffix-fitting names.
+   Keyed by full var name; value is [type, themeNamespace?]. */
+
+const OVERRIDES = {
+  // The following vars look like colors by suffix but aren't:
+  // (none observed yet — extend as needed)
+};
+
+function inferType(name, description = "") {
+  if (OVERRIDES[name]) return OVERRIDES[name];
+  for (const [matcher, type, ns] of RULES) {
+    if (matcher(name, description)) return [type, ns];
+  }
+  // Fallback — accept any value, no theme namespace.
+  return ["*", null];
 }
 
-// ---------------------------------------------------------------------------
-// extractCssProperties — walk the custom-elements.json manifest and collect
-// every public --m3e-* CSS property, deduplicating across components.
-// ---------------------------------------------------------------------------
+/* ──────────────────────────────────────────────────────────────────
+   Manifest loading
+   ────────────────────────────────────────────────────────────────── */
 
-/**
- * @typedef {{ type: string, ns: string|null, description: string }} PropMeta
- */
+async function loadManifest() {
+  const raw = await readFile(MANIFEST_PATH, "utf8");
+  return JSON.parse(raw);
+}
 
-/**
- * Extract all public --m3e-* CSS custom properties from a CEM manifest.
- *
- * @param {object} manifest - Parsed custom-elements.json
- * @returns {{ flatUnique: Map<string, PropMeta>, byComponent: Map<string, Array<{name: string, description: string}>> }}
- */
+/* Returns { byComponent: Map<tagName, {description, vars: [{name, description, type, ns}]}>,
+             flatUnique: Map<name, {description, type, ns, components: [tagName]}> } */
 export function extractCssProperties(manifest) {
-  /** @type {Map<string, PropMeta>} */
-  const flatUnique = new Map();
-  /** @type {Map<string, Array<{name: string, description: string}>>} */
   const byComponent = new Map();
+  const flatUnique = new Map();
 
-  for (const mod of manifest.modules ?? []) {
-    for (const decl of mod.declarations ?? []) {
-      if (!decl.cssProperties || decl.cssProperties.length === 0) continue;
-      if (!decl.tagName) continue;
-
-      const props = [];
+  for (const mod of manifest.modules || []) {
+    for (const decl of mod.declarations || []) {
+      if (decl.kind !== "class" || !decl.cssProperties?.length) continue;
+      const tag = decl.tagName || decl.name;
+      const compEntry = { description: decl.description || "", vars: [] };
       for (const prop of decl.cssProperties) {
-        const name = prop.name;
-        if (!name || !name.startsWith("--m3e-")) continue;
+        const [type, ns] = inferType(prop.name, prop.description);
+        const entry = {
+          name: prop.name,
+          description: prop.description || "",
+          type,
+          ns,
+        };
+        compEntry.vars.push(entry);
 
-        if (!flatUnique.has(name)) {
-          flatUnique.set(name, {
-            ...inferType(name),
-            description: prop.description ?? "",
-          });
+        const existing = flatUnique.get(prop.name);
+        if (existing) {
+          if (!existing.components.includes(tag)) existing.components.push(tag);
+          // Keep the first description we saw (they're usually identical).
+        } else {
+          flatUnique.set(prop.name, { ...entry, components: [tag] });
         }
-
-        props.push({ name, description: prop.description ?? "" });
       }
-
-      if (props.length > 0) {
-        const existing = byComponent.get(decl.tagName) ?? [];
-        byComponent.set(decl.tagName, existing.concat(props));
+      // Skip components with no public vars (some have only inherited).
+      if (compEntry.vars.length) {
+        const prev = byComponent.get(tag);
+        if (prev) {
+          // Merge — some elements have declarations split across modules.
+          for (const v of compEntry.vars) {
+            if (!prev.vars.find((x) => x.name === v.name)) prev.vars.push(v);
+          }
+        } else {
+          byComponent.set(tag, compEntry);
+        }
       }
     }
   }
 
-  return { flatUnique, byComponent };
+  return { byComponent, flatUnique };
 }
 
-// ---------------------------------------------------------------------------
-// emitUtilities — render the CSS @utility rules, sorted alphabetically.
-// ---------------------------------------------------------------------------
+/* ──────────────────────────────────────────────────────────────────
+   Emit utilities.css
+   ────────────────────────────────────────────────────────────────── */
 
-/**
- * Render a single --value() expression from a type and optional namespace.
- *
- * @param {string} type
- * @param {string|null} ns
- * @returns {string}
- */
-function valueExpr(type, ns) {
-  if (type === "*") return "--value(*)";
-  if (ns === null) return `--value(${type})`;
-  return `--value(${type}, --${ns}-*)`;
+function buildUtilityRule(entry) {
+  // Utility class is the var name without the leading "--".
+  // E.g. --m3e-button-container-color → @utility m3e-button-container-color-*
+  const cls = entry.name.replace(/^--/, "");
+  const valueExpr = entry.ns
+    ? `--value([${entry.type}], --${entry.ns}-*)`
+    : `--value([${entry.type}])`;
+  return `@utility ${cls}-* {\n  ${entry.name}: ${valueExpr};\n}`;
 }
 
-/**
- * Emit a deterministic CSS file of @utility rules for every --m3e-* var.
- *
- * @param {Map<string, PropMeta>} flatUnique
- * @returns {string}
- */
 export function emitUtilities(flatUnique) {
-  const lines = [];
-
-  lines.push("/*");
-  lines.push(" * AUTOGENERATED — DO NOT EDIT");
-  lines.push(" *");
-  lines.push(" * Generated by bin/generate-component-utilities.mjs from");
-  lines.push(" * node_modules/@m3e/web/dist/custom-elements.json.");
-  lines.push(" *");
-  lines.push(" * One Tailwind v4 @utility rule per public --m3e-* CSS custom property,");
-  lines.push(" * sorted alphabetically. Re-run `pnpm run generate:utilities` after");
-  lines.push(" * bumping @m3e/web.");
-  lines.push(" */");
-  lines.push("");
-
-  const sorted = [...flatUnique.keys()].sort();
-  for (const varName of sorted) {
-    const { type, ns } = flatUnique.get(varName);
-    const utilName = varName.slice(2); // strip leading "--"
-    lines.push(`@utility ${utilName}-* {`);
-    lines.push(`  ${varName}: ${valueExpr(type, ns)};`);
-    lines.push(`}`);
-  }
-
-  lines.push("");
-  return lines.join("\n");
+  const names = [...flatUnique.keys()].sort();
+  const header = `/*
+ * AUTO-GENERATED — DO NOT EDIT
+ *
+ * Generated by bin/generate-component-utilities.mjs from
+ * node_modules/@m3e/web/dist/custom-elements.json.
+ *
+ * One @utility rule per public --m3e-* CSS custom property in the
+ * m3e manifest (${names.length} rules). Each rule lets call sites pass
+ * either an arbitrary value or a Tailwind v4 theme key.
+ *
+ * INERT UNTIL TAILWIND v4. @utility is unrecognized syntax in v3;
+ * the v3 build and prettier silently ignore the entire file.
+ */
+`;
+  const body = names.map((n) => buildUtilityRule(flatUnique.get(n))).join("\n\n");
+  return `${header}\n${body}\n`;
 }
 
-// ---------------------------------------------------------------------------
-// emitDoc — render a Markdown reference doc grouped by component.
-// ---------------------------------------------------------------------------
+/* ──────────────────────────────────────────────────────────────────
+   Emit CSS_CUSTOM_PROPERTIES.md
+   ────────────────────────────────────────────────────────────────── */
 
-/**
- * Emit a Markdown reference document grouped by component tag name.
- *
- * @param {Map<string, Array<{name: string, description: string}>>} byComponent
- * @param {Map<string, PropMeta>} flatUnique
- * @returns {string}
- */
 export function emitDoc(byComponent, flatUnique) {
   const lines = [];
+  lines.push("<!-- AUTO-GENERATED — DO NOT EDIT. Regenerate via:");
+  lines.push("     node bin/generate-component-utilities.mjs -->");
+  lines.push("");
+  lines.push("# M3e CSS Custom Properties");
+  lines.push("");
+  lines.push(
+    "Structured reference for every public CSS custom property exposed by m3e web components, grouped by component, with inferred Tailwind v4 type and (where applicable) the theme namespace used by the matching `@utility` setter class.",
+  );
+  lines.push("");
+  lines.push(
+    `Total: **${flatUnique.size} unique** public vars across **${byComponent.size} components**.`,
+  );
+  lines.push("");
 
-  lines.push("<!-- AUTOGENERATED — DO NOT EDIT -->");
-  lines.push("<!-- Generated by bin/generate-component-utilities.mjs -->");
+  // Table of contents
+  lines.push("## Components");
   lines.push("");
-  lines.push("# CSS Custom Properties Reference");
-  lines.push("");
-  lines.push("One Tailwind v4 `@utility` rule is generated for each property below.");
-  lines.push("Usage: `class=\"<property-name-without-dashes>-[<value>]\"`");
+  const tags = [...byComponent.keys()].sort();
+  for (const tag of tags) {
+    lines.push(`- [\`${tag}\`](#${tag.replace(/[^a-z0-9]/g, "-")})`);
+  }
   lines.push("");
 
-  const sortedComponents = [...byComponent.keys()].sort();
-  for (const tagName of sortedComponents) {
-    const props = byComponent.get(tagName);
-    lines.push(`## \`${tagName}\``);
+  // Per-component sections
+  for (const tag of tags) {
+    const { description, vars } = byComponent.get(tag);
+    lines.push(`## \`${tag}\``);
     lines.push("");
-    lines.push("| Property | Type | Description |");
-    lines.push("| --- | --- | --- |");
-    for (const { name, description } of props) {
-      const meta = flatUnique.get(name);
-      const type = meta ? meta.type : "*";
-      lines.push(`| \`${name}\` | \`${type}\` | ${description} |`);
+    if (description) {
+      lines.push(description);
+      lines.push("");
+    }
+    lines.push("| Var | Type | Theme namespace | Description |");
+    lines.push("|---|---|---|---|");
+    for (const v of vars.sort((a, b) => a.name.localeCompare(b.name))) {
+      const ns = v.ns ? `\`--${v.ns}-*\`` : "—";
+      const desc = (v.description || "").replace(/\|/g, "\\|").replace(/\n/g, " ");
+      lines.push(`| \`${v.name}\` | \`${v.type}\` | ${ns} | ${desc} |`);
     }
     lines.push("");
   }
@@ -209,24 +248,19 @@ export function emitDoc(byComponent, flatUnique) {
   return lines.join("\n");
 }
 
-// ---------------------------------------------------------------------------
-// main — read manifest, emit both files.
-// ---------------------------------------------------------------------------
+/* ──────────────────────────────────────────────────────────────────
+   Main
+   ────────────────────────────────────────────────────────────────── */
 
-export async function main() {
-  const raw = await readFile(MANIFEST_PATH, "utf8");
-  const manifest = JSON.parse(raw);
+async function main() {
+  const manifest = await loadManifest();
+  const { byComponent, flatUnique } = extractCssProperties(manifest);
 
-  const { flatUnique, byComponent } = extractCssProperties(manifest);
-
-  const css = emitUtilities(flatUnique);
   await mkdir(dirname(OUT_UTILITIES), { recursive: true });
-  await writeFile(OUT_UTILITIES, css);
-  console.log(`Wrote ${flatUnique.size} @utility rules → ${OUT_UTILITIES}`);
+  await writeFile(OUT_UTILITIES, emitUtilities(flatUnique));
+  await writeFile(OUT_DOC, emitDoc(byComponent, flatUnique));
 
-  const doc = emitDoc(byComponent, flatUnique);
-  await mkdir(dirname(OUT_DOC), { recursive: true });
-  await writeFile(OUT_DOC, doc);
+  console.log(`Wrote ${flatUnique.size} @utility rules → ${OUT_UTILITIES}`);
   console.log(`Wrote ${byComponent.size} component sections → ${OUT_DOC}`);
 }
 
