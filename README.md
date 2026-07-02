@@ -10,7 +10,7 @@ It wraps `@m3e/web`'s design tokens AND every public component CSS variable as T
 
 - 🎨 Four-layer override cascade (seed → ref palette → sys role → @theme key) — override at the layer matching your intent.
 - 🧮 OKLCH-derived tonal palettes — calibration table baked offline against [Material Color Utilities](https://github.com/material-foundation/material-color-utilities) (build-time only; no runtime dep on MCU). Change one seed colour, watch the whole app retint.
-- 🧩 ~2,245 auto-generated `@utility` rules covering every public `--m3e-*` CSS variable in `@m3e/web`.
+- 🧩 One auto-generated `@utility` rule per public `--m3e-*` CSS variable in `@m3e/web` (2,000+ rules; the exact count tracks the pinned `@m3e/web` version and is recorded in the header of `generated/utilities.css`).
 - 🪶 Tailwind v4 only emits the rules you actually use — net bundle cost ≈ 0.
 
 ## Install
