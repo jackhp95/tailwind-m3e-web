@@ -50,7 +50,15 @@ const OUT_DOC = join(ROOT, "generated", "CSS_CUSTOM_PROPERTIES.md");
    at end) AND prefixed variants like --foo-hover-container-color. */
 
 const RULES = [
-  // Colors
+  // Opacity & numeric scalars — checked BEFORE color so names like
+  // `*-color-opacity` (which contain `-color-` mid-name but are 0–1 numbers,
+  // e.g. --m3e-select-disabled-color-opacity) infer `number`, not `color`.
+  [(n) => /-opacity(-|$)/.test(n), "number"],
+  [(n) => /-z-index(-|$)/.test(n), "number"],
+
+  // Colors. NOTE: `*-elevation-color` vars intentionally still match here
+  // (they are shadow-tint colours), since the elevation rule below is not
+  // hoisted above this one.
   [(n) => /-color(-|$)/.test(n), "color", "color"],
 
   // Radii / shape
@@ -72,10 +80,6 @@ const RULES = [
 
   // Elevation
   [(n) => /-elevation(-|$)/.test(n), "*", "shadow"],
-
-  // Opacity & numeric scalars
-  [(n) => /-opacity(-|$)/.test(n), "number"],
-  [(n) => /-z-index(-|$)/.test(n), "number"],
 
   // Lengths (catch-all for spatial dims). Component-local — no namespace.
   [

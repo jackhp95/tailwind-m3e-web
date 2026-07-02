@@ -30,6 +30,34 @@ describe("generate-component-utilities", () => {
     expect(flatUnique.get("--m3e-button-container-color-on-scroll")?.type).toBe("color");
   });
 
+  it("infers number (not color) for *-color-opacity vars — opacity wins over mid-name -color-", () => {
+    // Regression for the type-inference ordering bug: names like
+    // --m3e-select-disabled-color-opacity contain "-color-" mid-name but are
+    // opacities (0–1 numbers), not colours. They must NOT get a --color-* ns.
+    const manifest = {
+      modules: [
+        {
+          declarations: [
+            {
+              kind: "class",
+              tagName: "m3e-select",
+              cssProperties: [
+                {
+                  name: "--m3e-select-disabled-color-opacity",
+                  description: "The opacity level applied to the disabled text color.",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+    const { flatUnique } = extractCssProperties(manifest);
+    const entry = flatUnique.get("--m3e-select-disabled-color-opacity");
+    expect(entry.type).toBe("number");
+    expect(entry.ns).toBeFalsy(); // no theme namespace (undefined/null both mean "none")
+  });
+
   it("emitUtilities output is byte-stable across two runs (snapshot)", async () => {
     const manifest = JSON.parse(await readFile(join(FIXTURES, "m3e-manifest-mini.json"), "utf8"));
     const { flatUnique } = extractCssProperties(manifest);
