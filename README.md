@@ -23,7 +23,15 @@ pnpm add @m3e/web
 
 > `@m3e/web` is an *optional* peer dependency. You only need it installed if you use `tailwind-m3e-web/utilities` (the component-utility surface). The main `tailwind-m3e-web` entry point (M3 design tokens) works without it.
 
-Requires Tailwind v4. Requires Chrome 119+ / Safari 16.4+ / Firefox 128+ (gated on `oklch(from …)`).
+Requires Tailwind v4, and a browser supporting both **`light-dark()`** (scheme-aware roles) and **relative-color `oklch(from …)`** (tonal palettes). The binding minimum per engine is the newer of the two:
+
+| Browser | Minimum | Constraint |
+|---|---|---|
+| Chrome / Edge | **123+** | `light-dark()` (Chrome 123); `oklch(from …)` is older (119) |
+| Safari | **17.5+** | `light-dark()` (Safari 17.5); `oklch(from …)` is older (16.4) |
+| Firefox | **128+** | relative-color `oklch(from …)` (Firefox 128); `light-dark()` is older (120) |
+
+`color-mix()` (elevation) is supported earlier than all of the above and is not the constraint.
 
 ## Use
 
