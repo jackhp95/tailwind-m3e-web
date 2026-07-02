@@ -96,8 +96,17 @@
   );
   --on-background: light-dark(var(--md-ref-palette-neutral-10), var(--md-ref-palette-neutral-90));
 
-  --shadow: rgba(0, 0, 0, 0.15);
-  --scrim: rgba(0, 0, 0, 0.32);
+  /* M3 spec + @m3e/web define shadow and scrim as opaque black (neutral tone 0)
+     in BOTH schemes; the alpha is applied at the usage site (elevation() mixes
+     the shadow colour with `transparent`; scrims set their own opacity). Keeping
+     these opaque — rather than baking in an alpha here — (a) matches the m3e
+     default this file bridges to (elevation.css falls back to #000000), (b) lets
+     the elevation umbra/penumbra/ambient color-mix ratios resolve correctly
+     instead of being multiplied by a second 0.15/0.32 alpha, and (c) makes the
+     Tailwind colour-opacity modifier (`bg-scrim/50`, `bg-scrim/32`) behave as
+     users expect. */
+  --shadow: #000000;
+  --scrim: #000000;
 
   /* ════════════════════════════════════════════════════════════
      M3E BRIDGES — --md-sys-color-* read by m3e web components
