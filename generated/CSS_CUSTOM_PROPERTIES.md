@@ -785,7 +785,7 @@ A calendar used to select a date.
 | `--m3e-calendar-item-current-outline-color` | `color` | `--color-*` | Outline color used to indicate the current date. |
 | `--m3e-calendar-item-current-outline-thickness` | `length` | — | Outline thickness used to indicate the current date. |
 | `--m3e-calendar-item-disabled-color` | `color` | `--color-*` | Color used for disabled date items. |
-| `--m3e-calendar-item-disabled-color-opacity` | `color` | `--color-*` | Opacity applied to the disabled item color. |
+| `--m3e-calendar-item-disabled-color-opacity` | `number` | — | Opacity applied to the disabled item color. |
 | `--m3e-calendar-item-font-size` | `length` | `--text-*` | Font size of items in year and multi‑year views. |
 | `--m3e-calendar-item-font-weight` | `number` | `--font-weight-*` | Font weight of items in year and multi‑year views. |
 | `--m3e-calendar-item-line-height` | `length` | `--leading-*` | Line height of items in year and multi‑year views. |
@@ -824,7 +824,7 @@ A content container for text, images (or other media), and actions in the contex
 | `--m3e-elevated-card-disabled-container-color` | `color` | `--color-*` | Background color when disabled. |
 | `--m3e-elevated-card-disabled-container-elevation` | `*` | `--shadow-*` | Elevation level when disabled. |
 | `--m3e-elevated-card-disabled-container-elevation-color` | `color` | `--color-*` | Shadow color when disabled. |
-| `--m3e-elevated-card-disabled-container-elevation-opacity` | `*` | `--shadow-*` | Shadow opacity when disabled. |
+| `--m3e-elevated-card-disabled-container-elevation-opacity` | `number` | — | Shadow opacity when disabled. |
 | `--m3e-elevated-card-disabled-container-opacity` | `number` | — | Overall container opacity when disabled. |
 | `--m3e-elevated-card-disabled-text-color` | `color` | `--color-*` | Text color when elevated card is disabled. |
 | `--m3e-elevated-card-disabled-text-opacity` | `number` | — | Opacity applied to text when disabled. |
@@ -846,7 +846,7 @@ A content container for text, images (or other media), and actions in the contex
 | `--m3e-filled-card-disabled-container-color` | `color` | `--color-*` | Background color when disabled. |
 | `--m3e-filled-card-disabled-container-elevation` | `*` | `--shadow-*` | Elevation level when disabled. |
 | `--m3e-filled-card-disabled-container-elevation-color` | `color` | `--color-*` | Shadow color when disabled. |
-| `--m3e-filled-card-disabled-container-elevation-opacity` | `*` | `--shadow-*` | Shadow opacity when disabled. |
+| `--m3e-filled-card-disabled-container-elevation-opacity` | `number` | — | Shadow opacity when disabled. |
 | `--m3e-filled-card-disabled-container-opacity` | `number` | — | Overall container opacity when disabled. |
 | `--m3e-filled-card-disabled-text-color` | `color` | `--color-*` | Text color when filled card is disabled. |
 | `--m3e-filled-card-disabled-text-opacity` | `number` | — | Opacity applied to text when disabled. |
@@ -867,7 +867,7 @@ A content container for text, images (or other media), and actions in the contex
 | `--m3e-outlined-card-container-elevation` | `*` | `--shadow-*` | Elevation level for outlined card container. |
 | `--m3e-outlined-card-disabled-container-elevation` | `*` | `--shadow-*` | Elevation level when disabled. |
 | `--m3e-outlined-card-disabled-container-elevation-color` | `color` | `--color-*` | Shadow color when disabled. |
-| `--m3e-outlined-card-disabled-container-elevation-opacity` | `*` | `--shadow-*` | Shadow opacity when disabled. |
+| `--m3e-outlined-card-disabled-container-elevation-opacity` | `number` | — | Shadow opacity when disabled. |
 | `--m3e-outlined-card-disabled-outline-color` | `color` | `--color-*` | Border color when disabled. |
 | `--m3e-outlined-card-disabled-outline-opacity` | `number` | — | Border opacity when disabled. |
 | `--m3e-outlined-card-disabled-text-color` | `color` | `--color-*` | Text color when outlined card is disabled. |
@@ -2619,7 +2619,7 @@ An expandable item, selectable item within a navigation menu.
 | `--m3e-nav-menu-item-badge-line-height` | `length` | `--leading-*` | Line height for badge slot. |
 | `--m3e-nav-menu-item-badge-tracking` | `length` | `--tracking-*` | Letter spacing for badge slot. |
 | `--m3e-nav-menu-item-disabled-color` | `color` | `--color-*` | Text color for disabled item. |
-| `--m3e-nav-menu-item-disabled-color-opacity` | `color` | `--color-*` | Opacity for disabled item text color. |
+| `--m3e-nav-menu-item-disabled-color-opacity` | `number` | — | Opacity for disabled item text color. |
 | `--m3e-nav-menu-item-font-size` | `length` | `--text-*` | Font size for the item label. |
 | `--m3e-nav-menu-item-font-weight` | `number` | `--font-weight-*` | Font weight for the item label. |
 | `--m3e-nav-menu-item-height` | `length` | — | Height of the item. |
@@ -2946,7 +2946,7 @@ A form control that allows users to select a value from a set of predefined opti
 | `--m3e-form-field-tracking` | `length` | `--tracking-*` | The letter spacing of the select control. |
 | `--m3e-select-container-shape` | `length` | `--radius-*` | The corner radius of the select container. |
 | `--m3e-select-disabled-color` | `color` | `--color-*` | The text color when the select is disabled. |
-| `--m3e-select-disabled-color-opacity` | `color` | `--color-*` | The opacity level applied to the disabled text color. |
+| `--m3e-select-disabled-color-opacity` | `number` | — | The opacity level applied to the disabled text color. |
 | `--m3e-select-icon-size` | `length` | — | The size of the dropdown arrow icon. |
 
 ## `m3e-selection-list`
@@ -3494,7 +3494,7 @@ An expandable item in a tree.
 | Var | Type | Theme namespace | Description |
 |---|---|---|---|
 | `--m3e-tree-item-disabled-color` | `color` | `--color-*` | Text color for disabled item. |
-| `--m3e-tree-item-disabled-color-opacity` | `color` | `--color-*` | Opacity for disabled item text color. |
+| `--m3e-tree-item-disabled-color-opacity` | `number` | — | Opacity for disabled item text color. |
 | `--m3e-tree-item-font-size` | `length` | `--text-*` | Font size for the item label. |
 | `--m3e-tree-item-font-weight` | `number` | `--font-weight-*` | Font weight for the item label. |
 | `--m3e-tree-item-height` | `length` | — | Height of the item. |

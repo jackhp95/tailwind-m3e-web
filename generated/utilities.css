@@ -1129,7 +1129,7 @@
 }
 
 @utility m3e-calendar-item-disabled-color-opacity-* {
-  --m3e-calendar-item-disabled-color-opacity: --value([color], --color-*);
+  --m3e-calendar-item-disabled-color-opacity: --value([number]);
 }
 
 @utility m3e-calendar-item-font-size-* {
@@ -2013,7 +2013,7 @@
 }
 
 @utility m3e-elevated-card-disabled-container-elevation-opacity-* {
-  --m3e-elevated-card-disabled-container-elevation-opacity: --value([*], --shadow-*);
+  --m3e-elevated-card-disabled-container-elevation-opacity: --value([number]);
 }
 
 @utility m3e-elevated-card-disabled-container-opacity-* {
@@ -2813,7 +2813,7 @@
 }
 
 @utility m3e-filled-card-disabled-container-elevation-opacity-* {
-  --m3e-filled-card-disabled-container-elevation-opacity: --value([*], --shadow-*);
+  --m3e-filled-card-disabled-container-elevation-opacity: --value([number]);
 }
 
 @utility m3e-filled-card-disabled-container-opacity-* {
@@ -4333,7 +4333,7 @@
 }
 
 @utility m3e-nav-menu-item-disabled-color-opacity-* {
-  --m3e-nav-menu-item-disabled-color-opacity: --value([color], --color-*);
+  --m3e-nav-menu-item-disabled-color-opacity: --value([number]);
 }
 
 @utility m3e-nav-menu-item-font-size-* {
@@ -4889,7 +4889,7 @@
 }
 
 @utility m3e-outlined-card-disabled-container-elevation-opacity-* {
-  --m3e-outlined-card-disabled-container-elevation-opacity: --value([*], --shadow-*);
+  --m3e-outlined-card-disabled-container-elevation-opacity: --value([number]);
 }
 
 @utility m3e-outlined-card-disabled-outline-color-* {
@@ -6197,7 +6197,7 @@
 }
 
 @utility m3e-select-disabled-color-opacity-* {
-  --m3e-select-disabled-color-opacity: --value([color], --color-*);
+  --m3e-select-disabled-color-opacity: --value([number]);
 }
 
 @utility m3e-select-icon-size-* {
@@ -8501,7 +8501,7 @@
 }
 
 @utility m3e-tree-item-disabled-color-opacity-* {
-  --m3e-tree-item-disabled-color-opacity: --value([color], --color-*);
+  --m3e-tree-item-disabled-color-opacity: --value([number]);
 }
 
 @utility m3e-tree-item-font-size-* {
