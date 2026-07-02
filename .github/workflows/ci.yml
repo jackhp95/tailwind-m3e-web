@@ -28,5 +28,17 @@ jobs:
         run: pnpm add -D "@m3e/web@${{ matrix.m3e-version }}"
       - name: Regenerate utilities for this @m3e/web version
         run: pnpm run generate:utilities
+      - name: Verify committed generated artifacts are up to date
+        # Only meaningful on the leg whose installed @m3e/web matches the
+        # committed pin — other legs intentionally regenerate off-pin output.
+        # Also regenerate the tone table; both must match what is committed.
+        if: matrix.m3e-version == '2.5.10'
+        run: |
+          pnpm run generate:tones
+          git diff --exit-code -- generated/ src/ref/_tone-table.css \
+            || (echo "::error::Generated artifacts are stale. Run 'pnpm run generate' and commit." && exit 1)
+      - name: Check @m3e/web privates still exist upstream
+        if: matrix.m3e-version == '2.5.10'
+        run: pnpm run check:privates
       - name: Test
         run: pnpm test
