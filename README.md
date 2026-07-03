@@ -44,6 +44,12 @@ Requires Tailwind v4, and a browser supporting both **`light-dark()`** (scheme-a
 @import "tailwind-m3e-web/roles-extended";   /* optional: success / info / warning */
 ```
 
+> **Import order matters** — the token layer (`tailwind-m3e-web`) must load before `tailwind-m3e-web/utilities`. The utilities reference the `@theme` keys the token layer defines; reordering the imports silently breaks the cascade.
+
+> **Requires Tailwind v4.** `tailwind-m3e-web/utilities` is built entirely from `@utility` rules, which Tailwind v3 does not recognize — v3 (and prettier) silently ignore the whole file with no error, so the component setters simply never emit. If your `@m3e/web` utilities produce no CSS, check that you're on Tailwind v4.
+
+Tailwind only emits the classes it finds in your source. As usual for Tailwind v4, make sure your content is scanned (automatic content detection, or an explicit `@source`) so classes like `bg-primary` and `m3e-button-container-color-primary` are picked up from your HTML/templates.
+
 Now you can use utilities like:
 
 ```html

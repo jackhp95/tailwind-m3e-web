@@ -1,6 +1,0 @@
-.changeset/
-.github/
-test/
-node_modules/
-pnpm-lock.yaml
-*.log

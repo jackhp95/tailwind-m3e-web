@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Tailwind v4 utility surface for matraic's @m3e/web — Material 3 Expressive web components.",
   "license": "MIT",
+  "author": "Jack H Peterson",
   "type": "module",
   "engines": { "node": ">=20" },
   "repository": {
@@ -65,6 +66,7 @@
     "generate:utilities": "node bin/generate-component-utilities.mjs",
     "generate": "pnpm run generate:tones && pnpm run generate:utilities",
     "check:privates": "node bin/check-privates.mjs",
+    "prepublishOnly": "pnpm run generate && git diff --exit-code -- generated/ && pnpm test",
     "release:version": "changeset version",
     "release:publish": "changeset publish"
   }
