@@ -140,7 +140,10 @@
 
   --md-sys-typescale-emphasized-title-medium-font-size: 1rem;
   --md-sys-typescale-emphasized-title-medium-font-weight: 700;
-  --md-sys-typescale-emphasized-title-medium-line-height: 3.5rem;
+  /* Deliberate divergence from @m3e/web's default (3.5rem), an upstream typo:
+     3.5x leading on a 1rem font. Matches the standard title-medium line-height
+     (1.5rem) and the M3 spec (24px). */
+  --md-sys-typescale-emphasized-title-medium-line-height: 1.5rem;
   --md-sys-typescale-emphasized-title-medium-tracking: 0.009375rem;
 
   --md-sys-typescale-emphasized-title-small-font-size: 0.875rem;
