@@ -55,7 +55,11 @@ jobs:
       # integrity is enforced by the `integrity` job).
       - run: pnpm install --no-frozen-lockfile
       - name: Pin @m3e/web for matrix entry
-        run: pnpm add -D "@m3e/web@${{ matrix.m3e-version }}"
+        # -w/--workspace-root is required: pnpm-workspace.yaml declares this
+        # repo as the (single) workspace package, and pnpm 9 refuses a bare
+        # `pnpm add` at a workspace root (ERR_PNPM_ADDING_TO_ROOT). The flag
+        # makes the root install explicit, which is exactly what we mean here.
+        run: pnpm add -D -w "@m3e/web@${{ matrix.m3e-version }}"
       - name: Regenerate utilities for this @m3e/web version
         run: pnpm run generate:utilities
       # Committed-artifact drift + check:privates are enforced once by the
