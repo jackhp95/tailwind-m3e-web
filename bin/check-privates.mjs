@@ -18,13 +18,39 @@
  */
 
 import { readFile, readdir, stat } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const DEFAULT_INPUT_PATH = join(ROOT, "utilities-private.template.css");
-const M3E_DIST = join(ROOT, "node_modules", "@m3e", "web", "dist");
+
+/**
+ * Locate @m3e/web's `dist/` directory in a way that survives dependency
+ * hoisting. When this package is installed as a dependency, @m3e/web lands in
+ * the CONSUMER's top-level node_modules (or pnpm's virtual store) — NOT nested
+ * under tailwind-m3e-web — so the old hardcoded
+ *   <ROOT>/node_modules/@m3e/web/dist
+ * path did not exist for consumers. @m3e/web ships no bare/package.json export,
+ * so we resolve a known subpath export (`@m3e/web/core` → .../dist/core.js) and
+ * take its directory. Falls back to the local nested path (dev checkout) if
+ * resolution fails.
+ */
+export function resolveM3eDist() {
+  const require = createRequire(import.meta.url);
+  try {
+    const corePath = require.resolve("@m3e/web/core");
+    return dirname(corePath);
+  } catch {
+    const fallback = join(ROOT, "node_modules", "@m3e", "web", "dist");
+    if (existsSync(fallback)) return fallback;
+    throw new Error(
+      "Could not locate @m3e/web. Install it (peer dependency) before running check-privates.",
+    );
+  }
+}
 
 /* Recursively collect all .js files in dir (excluding .min.js to halve I/O — minified
    bundles contain a superset of the same identifiers as the unminified ones). */
@@ -78,7 +104,7 @@ async function main() {
   }
 
   console.log(`Checking ${privates.length} private vars against @m3e/web source…`);
-  const jsFiles = await collectJsFiles(M3E_DIST);
+  const jsFiles = await collectJsFiles(resolveM3eDist());
   console.log(`  (${jsFiles.length} m3e .js files in scope)`);
 
   let installedSource = "";
@@ -102,7 +128,7 @@ async function main() {
   console.log(`\n✅ All ${privates.length} private vars present in @m3e/web source.`);
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((err) => {
     console.error(err);
     process.exit(1);

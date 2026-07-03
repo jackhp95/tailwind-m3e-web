@@ -16,7 +16,14 @@
  * recolour the role; override individual tones for finer control.
  */
 
-@import "./ref/_tone-table.css";  /* idempotent — already loaded by main barrel */
+/* Required so this file works as a standalone entry point
+   (`@import "tailwind-m3e-web/roles-extended"`). NOTE: CSS @import is NOT
+   deduplicated by Tailwind v4 — even an identical path is emitted again — so
+   when the main barrel is ALSO imported (the documented common case) this
+   tone-table `:root` block appears twice in the compiled output. That is
+   harmless (identical static constants, same specificity, so the cascade is
+   unchanged) and only costs a few duplicate bytes; it is not idempotent. */
+@import "./ref/_tone-table.css";
 
 :where(:root) {
   --md-seed-success: oklch(0.6 0.15 145);

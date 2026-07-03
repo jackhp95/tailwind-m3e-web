@@ -10,7 +10,7 @@ It wraps `@m3e/web`'s design tokens AND every public component CSS variable as T
 
 - 🎨 Four-layer override cascade (seed → ref palette → sys role → @theme key) — override at the layer matching your intent.
 - 🧮 OKLCH-derived tonal palettes — calibration table baked offline against [Material Color Utilities](https://github.com/material-foundation/material-color-utilities) (build-time only; no runtime dep on MCU). Change one seed colour, watch the whole app retint.
-- 🧩 ~2,245 auto-generated `@utility` rules covering every public `--m3e-*` CSS variable in `@m3e/web`.
+- 🧩 One auto-generated `@utility` rule per public `--m3e-*` CSS variable in `@m3e/web` (2,000+ rules; the exact count tracks the pinned `@m3e/web` version and is recorded in the header of `generated/utilities.css`).
 - 🪶 Tailwind v4 only emits the rules you actually use — net bundle cost ≈ 0.
 
 ## Install
@@ -23,7 +23,15 @@ pnpm add @m3e/web
 
 > `@m3e/web` is an *optional* peer dependency. You only need it installed if you use `tailwind-m3e-web/utilities` (the component-utility surface). The main `tailwind-m3e-web` entry point (M3 design tokens) works without it.
 
-Requires Tailwind v4. Requires Chrome 119+ / Safari 16.4+ / Firefox 128+ (gated on `oklch(from …)`).
+Requires Tailwind v4, and a browser supporting both **`light-dark()`** (scheme-aware roles) and **relative-color `oklch(from …)`** (tonal palettes). The binding minimum per engine is the newer of the two:
+
+| Browser | Minimum | Constraint |
+|---|---|---|
+| Chrome / Edge | **123+** | `light-dark()` (Chrome 123); `oklch(from …)` is older (119) |
+| Safari | **17.5+** | `light-dark()` (Safari 17.5); `oklch(from …)` is older (16.4) |
+| Firefox | **128+** | relative-color `oklch(from …)` (Firefox 128); `light-dark()` is older (120) |
+
+`color-mix()` (elevation) is supported earlier than all of the above and is not the constraint.
 
 ## Use
 
