@@ -62,6 +62,34 @@ Now you can use utilities like:
 </m3e-button>
 ```
 
+## Density
+
+Material density makes components more compact **without** rescaling type, icons, corner radius, or the layout grid. It is a signed offset on component _height_: each step trims `4px` (the `--md-sys-density-size` interval), clamped at the densest scale each component supports.
+
+`@m3e/web` components read `--md-sys-density-scale` at runtime, so density is a **scope** utility — set it on a container and every component inside recomputes:
+
+```html
+<section class="density-2">
+  <m3e-button>-8px shorter</m3e-button>
+  <m3e-text-field label="Compact field"></m3e-text-field>
+</section>
+```
+
+| Class | `--md-sys-density-scale` | Effect per control |
+|---|---|---|
+| `density-0` | `0` | default (also resets a denser subtree) |
+| `density-1` | `-1` | −4px |
+| `density-2` | `-2` | −8px |
+| `density-3` | `-3` | −12px (densest most M3 components support) |
+
+For an arbitrary or dynamic value, set the source var directly — same idiom as the scoped overrides below:
+
+```html
+<div style="--md-sys-density-scale: -3;"> … </div>
+```
+
+> **Accessibility.** Scales below `0` can push controls under the 48×48dp touch target, so higher density is opt-in by design — it only applies where you add the class. Reserve it for pointer-dense surfaces (data tables, long forms), not primary touch targets. Density is intentionally **not** linked to Tailwind's `--spacing`; your `p-*`/`gap-*` grid stays fixed.
+
 ## Override
 
 The plugin exposes four cascading layers. Override at whichever matches your intent:
@@ -113,7 +141,7 @@ The tone-to-OKLCH-L mapping is calibrated offline against `@material/material-co
 
 | Entry point | Surface |
 |---|---|
-| `tailwind-m3e-web` | Strict M3 spec — primary/secondary/tertiary/error/surface/outline/inverse/background roles + 6 spec tonal palettes. |
+| `tailwind-m3e-web` | Strict M3 spec — primary/secondary/tertiary/error/surface/outline/inverse/background roles + 6 spec tonal palettes + `density-0…3` scope utilities. |
 | `tailwind-m3e-web/utilities` | Pre-built `@utility` rules for every public `--m3e-*` var in the pinned `@m3e/web` peerDep range. |
 | `tailwind-m3e-web/roles-extended` | Opt-in success/info/warning roles + tonal namespaces. |
 

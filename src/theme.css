@@ -375,11 +375,15 @@
   --spring-md-slow-effects: var(--md-sys-motion-spring-slow-effects);
 
   /*
-   * NOTE: --md-sys-state-* and --md-sys-density-* tokens are intentionally
-   * not mapped to @theme keys for v0. They are consumed internally by
-   * @m3e/web's state-layer and density-scale calc() expressions, not
-   * surfaced as user-facing Tailwind utilities. Override the source vars
-   * (--md-sys-state-hover-state-layer-opacity, etc.) directly if needed.
+   * NOTE: --md-sys-state-* tokens are intentionally not mapped to @theme
+   * keys — they are consumed internally by @m3e/web's state-layer calc()
+   * expressions, not surfaced as user-facing utilities. Override the source
+   * vars (--md-sys-state-hover-state-layer-opacity, etc.) directly if needed.
+   *
+   * Density is likewise not a @theme key (its value is read by components at
+   * runtime, not baked into a utility), but it IS surfaced — as scope
+   * utilities in ./density.css (density-0…density-3, which set
+   * --md-sys-density-scale on a subtree).
    */
 
   /* ──────────────────────────────────────────────────────────────────

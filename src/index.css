@@ -29,3 +29,7 @@
 
 /* Layer 3 — Tailwind v4 @theme keys. */
 @import "./theme.css";
+
+/* Layer 3 — density scope utilities (density-0…density-3). Depends only on
+   the sys density tokens above; safe to emit even without @m3e/web present. */
+@import "./density.css";
