@@ -9,6 +9,10 @@
  *                                       density via calc(size × scale).
  *
  * Source: node_modules/@m3e/web/dist/core.js (DensityToken)
+ *
+ * These are the raw tokens (Layer 2). App authors flip density through the
+ * scope utilities in ../density.css (density-0…density-3), or by overriding
+ * --md-sys-density-scale directly.
  */
 
 :root {

@@ -44,5 +44,9 @@ describe("compile smoke test", () => {
 
     // Component utility (--m3e-* setter)
     expect(css).toMatch(/\.m3e-button-container-color-primary\s*\{/);
+
+    // Density scope utility — sets --md-sys-density-scale on a subtree.
+    expect(css).toMatch(/\.density-2\s*\{/);
+    expect(css).toMatch(/--md-sys-density-scale:\s*-2/);
   }, 60_000);
 });
