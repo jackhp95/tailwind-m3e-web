@@ -12,7 +12,7 @@
  *
  *
  * M3 spec tone assignments for color roles:
- *   Light: primary=40, on-primary=100, container=90, on-container=10
+ *   Light: primary=40, on-primary=100, container=90, on-container=30
  *   Dark:  primary=80, on-primary=20,  container=30, on-container=90
  *
  * M3 spec tone assignments for surfaces:
@@ -113,7 +113,7 @@
 
      Each role references its same-named spec palette (M3 spec semantics).
      Roles follow the M3 spec tone ladder: 40/80 for primary, 100/20 for
-     on-primary, 90/30 for container, 10/90 for on-container.
+     on-primary, 90/30 for container, 30/90 for on-container.
      ════════════════════════════════════════════════════════════ */
 
   /* Primary */
@@ -130,7 +130,7 @@
     var(--md-ref-palette-primary-30)
   );
   --md-sys-color-on-primary-container: light-dark(
-    var(--md-ref-palette-primary-10),
+    var(--md-ref-palette-primary-30),
     var(--md-ref-palette-primary-90)
   );
 
@@ -148,7 +148,7 @@
     var(--md-ref-palette-secondary-30)
   );
   --md-sys-color-on-secondary-container: light-dark(
-    var(--md-ref-palette-secondary-10),
+    var(--md-ref-palette-secondary-30),
     var(--md-ref-palette-secondary-90)
   );
 
@@ -166,7 +166,7 @@
     var(--md-ref-palette-tertiary-30)
   );
   --md-sys-color-on-tertiary-container: light-dark(
-    var(--md-ref-palette-tertiary-10),
+    var(--md-ref-palette-tertiary-30),
     var(--md-ref-palette-tertiary-90)
   );
 
@@ -181,7 +181,7 @@
     var(--md-ref-palette-error-30)
   );
   --md-sys-color-on-error-container: light-dark(
-    var(--md-ref-palette-error-10),
+    var(--md-ref-palette-error-30),
     var(--md-ref-palette-error-90)
   );
 
