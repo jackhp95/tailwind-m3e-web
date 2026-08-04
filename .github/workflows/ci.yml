@@ -25,10 +25,7 @@ jobs:
       - name: Install with frozen lockfile (fails on package.json/lockfile drift)
         run: pnpm install --frozen-lockfile
       - name: Verify committed generated artifacts are up to date
-        run: |
-          pnpm run generate
-          git diff --exit-code -- generated/ src/ref/_tone-table.css \
-            || (echo "::error::Generated artifacts are stale. Run 'pnpm run generate' and commit." && exit 1)
+        run: pnpm run check:drift
       - name: Check @m3e/web privates still exist upstream
         run: pnpm run check:privates
       - name: Test
@@ -61,7 +58,7 @@ jobs:
         # makes the root install explicit, which is exactly what we mean here.
         run: pnpm add -D -w "@m3e/web@${{ matrix.m3e-version }}"
       - name: Regenerate utilities for this @m3e/web version
-        run: pnpm run generate:utilities
+        run: pnpm run gen:utilities
       # Committed-artifact drift + check:privates are enforced once by the
       # `integrity` job against the pinned deps; this matrix leg only proves
       # the codegen + tests work across @m3e/web versions and Node 20/22.

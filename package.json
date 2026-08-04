@@ -56,17 +56,23 @@
     "@tailwindcss/cli": "^4.3.2",
     "@changesets/cli": "^2.31.0",
     "culori": "^4.0.2",
+    "npm-run-all2": "^9.0.3",
     "tailwindcss": "^4.3.2",
     "vitest": "^4.1.9"
   },
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest",
-    "generate:tones": "node bin/calibrate-tones.mjs",
-    "generate:utilities": "node bin/generate-component-utilities.mjs",
-    "generate": "pnpm run generate:tones && pnpm run generate:utilities",
+    "dev:test": "vitest",
+    "gen": "run-p \"gen:*\"",
+    "gen:tones": "node bin/calibrate-tones.mjs",
+    "gen:utilities": "node bin/generate-component-utilities.mjs",
+    "check": "run-p \"check:*\"",
     "check:privates": "node bin/check-privates.mjs",
-    "prepublishOnly": "pnpm run generate && git diff --exit-code -- generated/ && pnpm test",
+    "check:drift": "node bin/check-drift.mjs",
+    "gate": "run-s check test",
+    "hooks:install": "git config core.hooksPath hooks",
+    "postinstall": "npm run hooks:install",
+    "prepublishOnly": "run-s check test",
     "release:version": "changeset version",
     "release:publish": "changeset publish"
   }
