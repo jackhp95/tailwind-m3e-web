@@ -137,6 +137,8 @@ Layer 3  @theme            --color-primary, --text-body-lg, --radius-md-corner-m
 
 The tone-to-OKLCH-L mapping is calibrated offline against `@material/material-color-utilities` and shipped as a small CSS table — no MCU dep at consumer install.
 
+**`<m3e-theme>` interop.** Layer 2 (`--md-sys-color-*`) is declared on `html`, not `:root`. The distinction matters when `<m3e-theme>` is also on the page: it writes its dynamically-computed color roles to `html { … }` via `document.adoptedStyleSheets`. Because `:root` is a pseudo-class (specificity 0,0,1,0) and would permanently outrank the type selector `html` (0,0,0,1), the static fallback values would always win. With both on `html` (equal specificity), adopted stylesheets apply after the document's own stylesheets per the CSS Cascade spec, so `<m3e-theme>`'s live-computed values correctly override the static fallbacks.
+
 ## API surface
 
 | Entry point | Surface |
