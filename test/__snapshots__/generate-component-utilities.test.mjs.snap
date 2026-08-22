@@ -55,11 +55,13 @@ exports[`generate-component-utilities > emitUtilities output is byte-stable acro
  */
 
 @utility m3e-button-container-color-* {
-  --m3e-button-container-color: --value([color], --color-*);
+  --alpha: calc(--modifier(integer) * 1%);
+  --m3e-button-container-color: --alpha(--value([color], --color-*) / var(--alpha, 100%));
 }
 
 @utility m3e-button-container-color-on-scroll-* {
-  --m3e-button-container-color-on-scroll: --value([color], --color-*);
+  --alpha: calc(--modifier(integer) * 1%);
+  --m3e-button-container-color-on-scroll: --alpha(--value([color], --color-*) / var(--alpha, 100%));
 }
 
 @utility m3e-button-duration-* {
@@ -71,7 +73,8 @@ exports[`generate-component-utilities > emitUtilities output is byte-stable acro
 }
 
 @utility m3e-button-label-text-color-* {
-  --m3e-button-label-text-color: --value([color], --color-*);
+  --alpha: calc(--modifier(integer) * 1%);
+  --m3e-button-label-text-color: --alpha(--value([color], --color-*) / var(--alpha, 100%));
 }
 
 @utility m3e-button-shape-* {
@@ -79,7 +82,8 @@ exports[`generate-component-utilities > emitUtilities output is byte-stable acro
 }
 
 @utility m3e-icon-color-* {
-  --m3e-icon-color: --value([color], --color-*);
+  --alpha: calc(--modifier(integer) * 1%);
+  --m3e-icon-color: --alpha(--value([color], --color-*) / var(--alpha, 100%));
 }
 
 @utility m3e-icon-size-* {

@@ -45,6 +45,13 @@ describe("compile smoke test", () => {
     // Component utility (--m3e-* setter)
     expect(css).toMatch(/\.m3e-button-container-color-primary\s*\{/);
 
+    // Component color utility with a Tailwind opacity modifier
+    // (regression for the --alpha()/--modifier() color-utility rewrite —
+    // this must produce a color-mix(), not silently drop the rule).
+    expect(css).toMatch(/\.m3e-button-container-color-white\\\/70\s*\{/);
+    expect(css).toMatch(/--alpha:\s*calc\(70 \* 1%\)/);
+    expect(css).toMatch(/color-mix\(in oklab, var\(--color-white\) var\(--alpha, 100%\), transparent\)/);
+
     // Density scope utility — sets --md-sys-density-scale on a subtree.
     expect(css).toMatch(/\.density-2\s*\{/);
     expect(css).toMatch(/--md-sys-density-scale:\s*-2/);

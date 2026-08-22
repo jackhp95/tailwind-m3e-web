@@ -9,6 +9,10 @@
  *      Each rule uses Tailwind v4's --value(<type>, --<namespace>-*)
  *      syntax so call sites can pass either an arbitrary value or a
  *      theme key. Inert under Tailwind v3.
+ *      Color-type rules additionally route through --alpha(... / var(...))
+ *      with a --modifier()-fed custom property, so call sites get the
+ *      standard `/50` opacity-modifier syntax for free, instead of needing
+ *      an hsla()/rgba() arbitrary value.
  *
  *   2. generated/CSS_CUSTOM_PROPERTIES.md
  *      Structured reference, grouped by component, with type + description.
@@ -178,7 +182,23 @@ function buildUtilityRule(entry) {
   const valueExpr = entry.ns
     ? `--value([${entry.type}], --${entry.ns}-*)`
     : `--value([${entry.type}])`;
-  return `@utility ${cls}-* {\n  ${entry.name}: ${valueExpr};\n}`;
+  if (entry.type !== "color") {
+    return `@utility ${cls}-* {\n  ${entry.name}: ${valueExpr};\n}`;
+  }
+  // Color-type vars get the standard Tailwind opacity-modifier treatment
+  // (e.g. m3e-button-container-color-white/70) instead of forcing call
+  // sites to spell out an hsla()/rgba() arbitrary value for partial opacity.
+  //
+  // --modifier() can't be nested directly inside --alpha() — when a class
+  // has no "/N" suffix, ANY declaration that references --modifier() is
+  // dropped entirely from the ruleset, which would silently drop the whole
+  // declaration (not just fall back). Routing the modifier through its own
+  // custom property first, then reading it back via var(..., 100%), keeps
+  // that drop confined to the intermediate property: the fallback supplies
+  // 100% opacity whenever no modifier is present. Confirmed empirically
+  // against the installed Tailwind version — see
+  // https://github.com/tailwindlabs/tailwindcss/discussions/18124.
+  return `@utility ${cls}-* {\n  --alpha: calc(--modifier(integer) * 1%);\n  ${entry.name}: --alpha(${valueExpr} / var(--alpha, 100%));\n}`;
 }
 
 export function emitUtilities(flatUnique) {
